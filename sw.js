@@ -1,4 +1,12 @@
-const CACHE_NAME = 'reztau-v1';
+const CACHE_NAME = 'reztau-v1.0.1';
+
+// Listen for skip waiting message
+self.addEventListener('message', (event) => {
+  if (event.data && event.data.type === 'SKIP_WAITING') {
+    self.skipWaiting();
+  }
+});
+
 const urlsToCache = [
   '/',
   '/index.html',

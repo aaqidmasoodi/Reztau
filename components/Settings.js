@@ -2,6 +2,9 @@ const Settings = ({ onBack, currentUser }) => {
   const [notifications, setNotifications] = useState(true);
   const [darkMode, setDarkMode] = useState(false);
   const [language, setLanguage] = useState('English');
+  const [appVersion, setAppVersion] = useState('Loading...');
+  const [updateAvailable, setUpdateAvailable] = useState(false);
+  const [isUpdating, setIsUpdating] = useState(false);
   
   useEffect(() => {
     const currentTheme = document.documentElement.getAttribute('data-theme');
@@ -9,7 +12,64 @@ const Settings = ({ onBack, currentUser }) => {
     
     const notifPref = localStorage.getItem('reztau-notifications');
     setNotifications(notifPref !== 'false');
+    
+    // Get app version and check for updates
+    getAppVersion();
+    checkForUpdates();
   }, []);
+  
+  const getAppVersion = async () => {
+    try {
+      if ('serviceWorker' in navigator && navigator.serviceWorker.controller) {
+        const caches = await window.caches.keys();
+        const reztauCache = caches.find(cache => cache.startsWith('reztau-v'));
+        if (reztauCache) {
+          const version = reztauCache.replace('reztau-v', '');
+          setAppVersion(version);
+        } else {
+          setAppVersion('1.0.1');
+        }
+      } else {
+        setAppVersion('1.0.1');
+      }
+    } catch (error) {
+      console.error('Error getting app version:', error);
+      setAppVersion('1.0.1');
+    }
+  };
+  
+  const checkForUpdates = () => {
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.addEventListener('controllerchange', () => {
+        setUpdateAvailable(true);
+      });
+      
+      navigator.serviceWorker.getRegistration().then(registration => {
+        if (registration && registration.waiting) {
+          setUpdateAvailable(true);
+        }
+      });
+    }
+  };
+  
+  const installUpdate = async () => {
+    if (!('serviceWorker' in navigator)) return;
+    
+    setIsUpdating(true);
+    
+    try {
+      const registration = await navigator.serviceWorker.getRegistration();
+      if (registration && registration.waiting) {
+        registration.waiting.postMessage({ type: 'SKIP_WAITING' });
+        setTimeout(() => {
+          window.location.reload();
+        }, 1000);
+      }
+    } catch (error) {
+      console.error('Error installing update:', error);
+      setIsUpdating(false);
+    }
+  };
   
   const handleThemeToggle = () => {
     const newTheme = darkMode ? 'light' : 'dark';
@@ -385,7 +445,7 @@ const Settings = ({ onBack, currentUser }) => {
             gap: '0.75rem'
           }
         }, [
-          ['Version', 'v1.0.0', 'fas fa-tag'],
+          ['Version', `v${appVersion}`, 'fas fa-tag'],
           ['Build', '2024.1', 'fas fa-code-branch'],
           ['Storage', '2.4MB', 'fas fa-hdd'],
           ['Cache', '1.2MB', 'fas fa-database']
@@ -426,6 +486,61 @@ const Settings = ({ onBack, currentUser }) => {
             }, label)
           ])
         ))
+      ]),
+      
+      // Update notification
+      updateAvailable && React.createElement('div', {
+        key: 'update-notification',
+        style: {
+          background: 'linear-gradient(135deg, var(--accent-color), var(--primary-color))',
+          borderRadius: '12px',
+          padding: '1rem',
+          marginBottom: '1rem',
+          color: 'white',
+          textAlign: 'center'
+        }
+      }, [
+        React.createElement('i', {
+          key: 'icon',
+          className: 'fas fa-download',
+          style: {
+            fontSize: '2rem',
+            marginBottom: '0.5rem',
+            opacity: 0.9
+          }
+        }),
+        React.createElement('h3', {
+          key: 'title',
+          style: {
+            fontSize: '1rem',
+            fontWeight: '700',
+            marginBottom: '0.5rem'
+          }
+        }, 'Update Available!'),
+        React.createElement('p', {
+          key: 'desc',
+          style: {
+            fontSize: '0.85rem',
+            marginBottom: '1rem',
+            opacity: 0.9
+          }
+        }, 'A new version of the app is ready to install'),
+        React.createElement('button', {
+          key: 'install-btn',
+          onClick: installUpdate,
+          disabled: isUpdating,
+          style: {
+            padding: '0.75rem 2rem',
+            background: 'rgba(255, 255, 255, 0.9)',
+            color: 'var(--primary-color)',
+            border: 'none',
+            borderRadius: '25px',
+            fontSize: '0.9rem',
+            fontWeight: '700',
+            cursor: isUpdating ? 'not-allowed' : 'pointer',
+            opacity: isUpdating ? 0.7 : 1
+          }
+        }, isUpdating ? 'Installing Update...' : 'Install Now')
       ])
     ])
   ]);
