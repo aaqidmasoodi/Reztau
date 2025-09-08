@@ -34,6 +34,17 @@ const ConfigManager = {
       root.style.setProperty(`--${cssVar}-color`, value);
     });
     
+    // Update status bar color to match app background
+    const themeColorMeta = document.querySelector('meta[name="theme-color"]');
+    const msNavButtonMeta = document.querySelector('meta[name="msapplication-navbutton-color"]');
+    
+    if (themeColorMeta) {
+      themeColorMeta.setAttribute('content', colors.background);
+    }
+    if (msNavButtonMeta) {
+      msNavButtonMeta.setAttribute('content', colors.background);
+    }
+    
     document.documentElement.setAttribute('data-theme', mode);
   }
 };

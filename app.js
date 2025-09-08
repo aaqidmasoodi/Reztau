@@ -764,7 +764,7 @@ const App = () => {
             // Logo
             React.createElement('img', {
               key: 'logo',
-              src: ConfigManager.restaurant?.logo || 'assets/alkhair-logo.png',
+              src: 'Alkahir_logo.png',
               alt: ConfigManager.restaurant?.name,
               style: {
                 width: '80px',
