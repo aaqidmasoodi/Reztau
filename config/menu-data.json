@@ -1,0 +1,214 @@
+{
+  "categories": [
+    {
+      "id": "appetisers",
+      "name": "Appetisers",
+      "items": [
+        {
+          "id": "veggie-samosa",
+          "name": "Veggie Samosa",
+          "description": "Crispy pastry filled with spiced vegetables",
+          "price": 1.80,
+          "image": "https://images.unsplash.com/photo-1601050690597-df0568f70950?w=400&h=300&fit=crop",
+          "available": true,
+          "dietary": ["vegetarian", "vegan"],
+          "spiceLevel": 1,
+          "ingredients": ["Potatoes", "Peas", "Onions", "Spices", "Pastry"],
+          "allergens": ["Gluten"]
+        },
+        {
+          "id": "onion-bhaji",
+          "name": "Onion Bhaji",
+          "description": "Deep-fried onion fritters with aromatic spices",
+          "price": 2.30,
+          "image": "https://images.unsplash.com/photo-1565557623262-b51c2513a641?w=400&h=300&fit=crop",
+          "available": true,
+          "dietary": ["vegetarian", "vegan"],
+          "spiceLevel": 2,
+          "ingredients": ["Onions", "Chickpea flour", "Spices", "Herbs"],
+          "allergens": []
+        },
+        {
+          "id": "aloo-tikki",
+          "name": "Aloo Tikki",
+          "description": "Spiced potato patties served with chutneys",
+          "price": 3.50,
+          "image": "https://images.unsplash.com/photo-1606491956689-2ea866880c84?w=400&h=300&fit=crop",
+          "available": true,
+          "dietary": ["vegetarian", "vegan"],
+          "spiceLevel": 2,
+          "ingredients": ["Potatoes", "Spices", "Herbs", "Chutneys"],
+          "allergens": []
+        },
+        {
+          "id": "falafel-portion",
+          "name": "Falafel Portion",
+          "description": "Middle Eastern chickpea fritters with tahini",
+          "price": 3.50,
+          "image": "https://images.unsplash.com/photo-1593504049359-74330189a345?w=400&h=300&fit=crop",
+          "available": true,
+          "dietary": ["vegetarian", "vegan"],
+          "spiceLevel": 1,
+          "ingredients": ["Chickpeas", "Herbs", "Spices", "Tahini"],
+          "allergens": ["Sesame"]
+        },
+        {
+          "id": "pakora-portion",
+          "name": "Pakora Portion",
+          "description": "Mixed vegetable fritters in spiced batter",
+          "price": 4.50,
+          "image": "https://images.unsplash.com/photo-1567188040759-fb8a883dc6d8?w=400&h=300&fit=crop",
+          "available": true,
+          "dietary": ["vegetarian", "vegan"],
+          "spiceLevel": 2,
+          "ingredients": ["Mixed vegetables", "Chickpea flour", "Spices"],
+          "allergens": []
+        },
+        {
+          "id": "samosa-chaat",
+          "name": "Samosa Chaat",
+          "description": "Samosa topped with yogurt, chutneys and spices",
+          "price": 7.00,
+          "image": "https://images.unsplash.com/photo-1626132647523-66f5bf380027?w=400&h=300&fit=crop",
+          "available": true,
+          "dietary": ["vegetarian"],
+          "spiceLevel": 3,
+          "ingredients": ["Samosa", "Yogurt", "Chutneys", "Onions", "Spices"],
+          "allergens": ["Gluten", "Dairy"]
+        }
+      ]
+    },
+    {
+      "id": "wraps",
+      "name": "Wraps",
+      "items": [
+        {
+          "id": "chicken-tikka-wrap",
+          "name": "Chicken Tikka Wrap",
+          "description": "Marinated chicken tikka in soft naan with salad",
+          "price": 8.50,
+          "image": "https://images.unsplash.com/photo-1565299507177-b0ac66763828?w=400&h=300&fit=crop",
+          "available": true,
+          "dietary": [],
+          "spiceLevel": 2,
+          "ingredients": ["Chicken tikka", "Naan", "Salad", "Mint chutney"],
+          "allergens": ["Gluten", "Dairy"]
+        },
+        {
+          "id": "lamb-tikka-wrap",
+          "name": "Lamb Tikka Wrap",
+          "description": "Tender lamb tikka wrapped with fresh vegetables",
+          "price": 10.00,
+          "image": "https://images.unsplash.com/photo-1574894709920-11b28e7367e3?w=400&h=300&fit=crop",
+          "available": true,
+          "dietary": [],
+          "spiceLevel": 2,
+          "ingredients": ["Lamb tikka", "Naan", "Vegetables", "Yogurt sauce"],
+          "allergens": ["Gluten", "Dairy"]
+        },
+        {
+          "id": "falafel-wrap",
+          "name": "Falafel Wrap",
+          "description": "Crispy falafel with hummus and fresh salad",
+          "price": 7.50,
+          "image": "https://images.unsplash.com/photo-1565299624946-b28f40a0ca4b?w=400&h=300&fit=crop",
+          "available": true,
+          "dietary": ["vegetarian", "vegan"],
+          "spiceLevel": 1,
+          "ingredients": ["Falafel", "Hummus", "Salad", "Tahini"],
+          "allergens": ["Gluten", "Sesame"]
+        }
+      ]
+    },
+    {
+      "id": "chicken-mains",
+      "name": "Chicken Mains",
+      "items": [
+        {
+          "id": "butter-chicken",
+          "name": "Butter Chicken",
+          "description": "Creamy tomato-based curry with tender chicken pieces",
+          "price": 12.00,
+          "image": "https://images.unsplash.com/photo-1565557623262-b51c2513a641?w=400&h=300&fit=crop",
+          "available": true,
+          "dietary": [],
+          "spiceLevel": 2,
+          "ingredients": ["Chicken", "Tomatoes", "Cream", "Butter", "Spices"],
+          "allergens": ["Dairy"],
+          "servingInfo": "Served with rice or naan"
+        },
+        {
+          "id": "chicken-karahi",
+          "name": "Chicken Karahi",
+          "description": "Traditional Pakistani dish cooked in a wok with tomatoes",
+          "price": 12.50,
+          "image": "https://images.unsplash.com/photo-1585937421612-70a008356fbe?w=400&h=300&fit=crop",
+          "available": true,
+          "dietary": [],
+          "spiceLevel": 3,
+          "ingredients": ["Chicken", "Tomatoes", "Ginger", "Garlic", "Green chilies"],
+          "allergens": [],
+          "servingInfo": "Served with rice or naan"
+        },
+        {
+          "id": "chicken-jalfrezi",
+          "name": "Chicken Jalfrezi",
+          "description": "Stir-fried chicken with bell peppers and onions",
+          "price": 13.00,
+          "image": "https://images.unsplash.com/photo-1567188040759-fb8a883dc6d8?w=400&h=300&fit=crop",
+          "available": true,
+          "dietary": [],
+          "spiceLevel": 3,
+          "ingredients": ["Chicken", "Bell peppers", "Onions", "Tomatoes", "Spices"],
+          "allergens": [],
+          "servingInfo": "Served with rice or naan"
+        }
+      ]
+    },
+    {
+      "id": "vegetarian-mains",
+      "name": "Vegetarian Mains",
+      "items": [
+        {
+          "id": "chana-masala",
+          "name": "Chana Masala",
+          "description": "Spiced chickpeas in rich tomato and onion gravy",
+          "price": 9.00,
+          "image": "https://images.unsplash.com/photo-1585937421612-70a008356fbe?w=400&h=300&fit=crop",
+          "available": true,
+          "dietary": ["vegetarian", "vegan"],
+          "spiceLevel": 2,
+          "ingredients": ["Chickpeas", "Tomatoes", "Onions", "Garam masala", "Coriander"],
+          "allergens": [],
+          "servingInfo": "Plain naan/rice included, cheapest side free"
+        },
+        {
+          "id": "saag-paneer",
+          "name": "Saag Paneer",
+          "description": "Creamy spinach curry with soft paneer cheese",
+          "price": 10.00,
+          "image": "https://images.unsplash.com/photo-1574894709920-11b28e7367e3?w=400&h=300&fit=crop",
+          "available": true,
+          "dietary": ["vegetarian"],
+          "spiceLevel": 2,
+          "ingredients": ["Spinach", "Paneer", "Cream", "Garlic", "Ginger"],
+          "allergens": ["Dairy"],
+          "servingInfo": "Plain naan/rice included, cheapest side free"
+        },
+        {
+          "id": "vegetable-biryani",
+          "name": "Vegetable Biryani",
+          "description": "Fragrant basmati rice with mixed vegetables and spices",
+          "price": 11.00,
+          "image": "https://images.unsplash.com/photo-1563379091339-03246963d96c?w=400&h=300&fit=crop",
+          "available": true,
+          "dietary": ["vegetarian"],
+          "spiceLevel": 2,
+          "ingredients": ["Basmati rice", "Mixed vegetables", "Saffron", "Biryani spices"],
+          "allergens": ["Dairy"],
+          "servingInfo": "Complete meal with raita"
+        }
+      ]
+    }
+  ]
+}

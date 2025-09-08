@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reztau</title>
+    
+    <!-- PWA Meta Tags -->
+    <meta name="theme-color" content="#000000">
+    <meta name="description" content="Restaurant ordering app">
+    <link rel="manifest" href="manifest.json">
+    <link rel="apple-touch-icon" href="assets/icon-192.png">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="styles/main.css">
+    
+    <!-- React and Babel -->
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    
+    <!-- Stripe -->
+    <script src="https://js.stripe.com/v3/"></script>
+</head>
+<body>
+    <div id="root"></div>
+    
+    <!-- Components -->
+    <script type="text/babel" src="components/ThemeProvider.js"></script>
+    <script type="text/babel" src="components/Header.js"></script>
+    <script type="text/babel" src="components/PageHeader.js"></script>
+    <script type="text/babel" src="components/BottomNav.js"></script>
+    <script type="text/babel" src="components/CategoryTabs.js"></script>
+    <script type="text/babel" src="components/MenuItem.js"></script>
+    <script type="text/babel" src="components/ItemDetail.js"></script>
+    <script type="text/babel" src="components/Favorites.js"></script>
+    <script type="text/babel" src="components/Cart.js"></script>
+    <script type="text/babel" src="components/Menu.js"></script>
+    <script type="text/babel" src="components/Login.js"></script>
+    <script type="text/babel" src="components/NhostLogin.js"></script>
+    <script type="text/babel" src="components/Sidebar.js"></script>
+    <script type="text/babel" src="components/Settings.js"></script>
+    <script type="text/babel" src="components/OrderHistory.js"></script>
+    <script type="text/babel" src="components/OrderSuccess.js"></script>
+    <script type="text/babel" src="components/Checkout.js"></script>
+    <script type="text/babel" src="utils/config.js"></script>
+    <script type="text/babel" src="utils/cart.js"></script>
+    <script type="text/babel" src="utils/favorites.js"></script>
+    <script type="text/babel" src="utils/auth.js"></script>
+    <script type="text/babel" src="utils/nhost.js"></script>
+    <script type="text/babel" src="utils/stripe.js"></script>
+    <script type="text/babel" src="app.js"></script>
+    
+    <!-- Service Worker Registration -->
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('sw.js')
+                    .then(registration => console.log('SW registered'))
+                    .catch(error => console.log('SW registration failed'));
+            });
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,22 @@
+{
+  "stripe": {
+    "publishableKey": "pk_test_your_stripe_publishable_key_here"
+  },
+  "oneSignal": {
+    "appId": "your_onesignal_app_id_here"
+  },
+  "features": {
+    "darkMode": true,
+    "notifications": true,
+    "delivery": true,
+    "pickup": true
+  },
+  "currency": {
+    "code": "USD",
+    "symbol": "$"
+  },
+  "tax": {
+    "rate": 0.08,
+    "included": false
+  }
+}

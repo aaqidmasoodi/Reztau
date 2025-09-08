@@ -1,0 +1,8 @@
+{
+  "subdomain": "hntwniyrbykolcxghopb",
+  "region": "eu-west-2",
+  "graphqlUrl": "https://hntwniyrbykolcxghopb.graphql.eu-west-2.nhost.run/v1",
+  "authUrl": "https://hntwniyrbykolcxghopb.auth.eu-west-2.nhost.run/v1",
+  "storageUrl": "https://hntwniyrbykolcxghopb.storage.eu-west-2.nhost.run/v1",
+  "functionsUrl": "https://hntwniyrbykolcxghopb.functions.eu-west-2.nhost.run/v1"
+}

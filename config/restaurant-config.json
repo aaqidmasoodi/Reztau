@@ -1,0 +1,29 @@
+{
+  "name": "Al Khair Restaurant",
+  "description": "Authentic Halal cuisine served with traditional hospitality. Located in the heart of Dublin, we offer fresh, flavorful dishes prepared with the finest ingredients and Islamic values.",
+  "logo": "assets/alkhair-logo.png",
+  "contact": {
+    "phone": "+353 1 234 5678",
+    "email": "orders@alkhairrestaurant.ie",
+    "address": "123 Mosque Road, Dublin 8, Ireland"
+  },
+  "cuisine": "Halal",
+  "established": "2018",
+  "specialties": [
+    "Traditional Pakistani Cuisine",
+    "Fresh Halal Meat",
+    "Authentic Spices",
+    "Family Recipes"
+  ],
+  "values": [
+    "100% Halal Certified",
+    "Fresh Daily Preparation",
+    "Community Focused",
+    "Traditional Methods"
+  ],
+  "delivery": {
+    "fee": 2.50,
+    "freeDeliveryMinimum": 25.00,
+    "estimatedTime": "30-45 minutes"
+  }
+}

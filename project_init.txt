@@ -1,0 +1,101 @@
+REZTAU PWA - PROJECT INITIALIZATION
+=====================================
+
+PROJECT OVERVIEW:
+- Name: Reztau
+- Type: Progressive Web App (PWA)
+- Technology: HTML, CSS, React (script-babel, no Node.js)
+- Business Model: White-label solution sold to individual restaurants
+
+CORE FUNCTIONALITY:
+- Restaurant menu display
+- Shopping cart system
+- Order placement with payment processing
+- Native-like mobile UI experience
+
+ARCHITECTURE DECISIONS:
+- Static JSON configuration files for each restaurant deployment
+- Component-based React structure for reusability
+- Each restaurant gets deployed on separate server with custom config
+
+CONFIGURATION FILES STRUCTURE:
+1. restaurant-config.json (branding, info, contact details)
+2. menu-data.json (categories, items, prices, descriptions)
+3. theme-config.json (colors, dark/light mode, logo paths, button accents)
+4. app-config.json (delivery zones, payment settings, app behavior)
+
+UI/UX REQUIREMENTS:
+- Native mobile app feel
+- Sticky header component
+- Sticky bottom navigation
+- Dark mode / Light mode support from beginning
+- Fully customizable theming (colors, logos, branding)
+- Responsive design
+
+PWA FEATURES:
+- Offline capability for menu browsing
+- Online requirement for order processing
+- Installable web app
+- Push notifications via OneSignal
+- Service worker for caching
+
+PAYMENT INTEGRATION:
+- Stripe payment processing (robust and multiple options)
+- Payment must be completed before order submission
+
+ORDER PROCESSING (POST-PAYMENT):
+- Uses Stripe Dashboard as order management system
+- Order details stored in Stripe payment metadata
+- Restaurant views/manages orders directly in Stripe Dashboard
+- Stripe handles notifications, receipts, and refunds
+- Order data in metadata: customer info, items, quantities, delivery details, timestamps
+- No additional database or order management system needed
+
+OFFLINE STRATEGY:
+- Allow menu browsing offline
+- Display "Online connection required" message for order placement
+- Cache menu data and app shell for offline use
+
+CUSTOMIZATION SCOPE:
+- Restaurant branding (logo, colors, name, contact info)
+- Theme colors and accents
+- Menu categories and items
+- Delivery zones and pricing
+- App behavior settings
+- Dark/light mode preferences
+
+COMPONENT STRUCTURE:
+- Modular React components reading from config files
+- Theme provider for dynamic styling
+- CSS custom properties for runtime theming
+- Reusable components: Header, BottomNav, MenuItem, Cart, Checkout, etc.
+
+FOLDER STRUCTURE:
+/components (React components)
+/config (JSON configuration files)
+/assets (images, icons, logos)
+/styles (CSS files with custom properties)
+/utils (helper functions)
+
+TECHNICAL REQUIREMENTS:
+- No build process (script-babel in browser)
+- Static file deployment
+- Service worker for PWA functionality
+- Stripe SDK integration
+- OneSignal SDK integration
+- Responsive CSS Grid/Flexbox
+- Local storage for cart persistence
+
+TARGET CUSTOMERS:
+- Individual restaurants
+- Coffee shops
+- Cafes
+- Food establishments wanting their own branded ordering app
+
+FINAL DECISIONS CONFIRMED:
+- Order processing: Stripe Dashboard (no additional database needed)
+- Menu structure: Categories with items (variations can be added later)
+- Delivery zones: Simple radius-based initially
+- No separate order management dashboard needed
+
+PROJECT STATUS: IN PROGREESS
