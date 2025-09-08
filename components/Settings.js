@@ -120,17 +120,14 @@ const Settings = ({ onBack, currentUser }) => {
       right: 0,
       bottom: 0,
       background: 'var(--background-color)',
-      zIndex: 2001,
-      overflow: 'auto'
+      zIndex: 1000,
+      overflow: 'auto',
+      paddingTop: 'calc(70px + env(safe-area-inset-top))',
+      transform: 'translateX(0)',
+      transition: 'transform 0.3s ease-out',
+      animation: 'slideInFromRight 0.3s ease-out'
     }
   }, [
-    // Header
-    React.createElement(PageHeader, {
-      key: 'header',
-      title: 'Settings',
-      onBack: onBack
-    }),
-    
     // Content
     React.createElement('div', {
       key: 'content',

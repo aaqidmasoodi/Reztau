@@ -96,37 +96,23 @@ const OrderHistory = ({ onBack }) => {
     }
   };
   
-  if (loading) {
-    return React.createElement('div', {
-      style: {
-        position: 'fixed',
-        top: 0,
-        left: 0,
-        right: 0,
-        bottom: 0,
-        background: 'var(--background-color)',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        zIndex: 2001
-      }
-    }, React.createElement('div', {
-      style: {
-        textAlign: 'center',
-        color: 'var(--text-secondary)'
-      }
-    }, [
-      React.createElement('i', {
-        key: 'icon',
-        className: 'fas fa-spinner fa-spin',
-        style: { fontSize: '2rem', marginBottom: '1rem' }
-      }),
-      React.createElement('div', {
-        key: 'text',
-        style: { fontSize: '1.1rem' }
-      }, 'Loading your orders...')
-    ]));
-  }
+  const loadingContent = React.createElement('div', {
+    style: {
+      textAlign: 'center',
+      padding: '3rem 1rem',
+      color: 'var(--text-secondary)'
+    }
+  }, [
+    React.createElement('i', {
+      key: 'icon',
+      className: 'fas fa-spinner fa-spin',
+      style: { fontSize: '2rem', marginBottom: '1rem' }
+    }),
+    React.createElement('div', {
+      key: 'text',
+      style: { fontSize: '1.1rem' }
+    }, 'Loading your orders...')
+  ]);
   
   return React.createElement('div', {
     style: {
@@ -136,22 +122,19 @@ const OrderHistory = ({ onBack }) => {
       right: 0,
       bottom: 0,
       background: 'var(--background-color)',
-      zIndex: 2001,
-      overflow: 'auto'
+      zIndex: 1000,
+      overflow: 'auto',
+      paddingTop: 'calc(70px + env(safe-area-inset-top))',
+      transform: 'translateX(0)',
+      transition: 'transform 0.3s ease-out',
+      animation: 'slideInFromRight 0.3s ease-out'
     }
   }, [
-    // Header
-    React.createElement(PageHeader, {
-      key: 'header',
-      title: 'Order History',
-      onBack: onBack
-    }),
-    
     // Content
     React.createElement('div', {
       key: 'content',
       style: { padding: '1rem', paddingBottom: '2rem' }
-    }, [
+    }, loading ? [loadingContent] : [
       error && React.createElement('div', {
         key: 'error',
         style: {

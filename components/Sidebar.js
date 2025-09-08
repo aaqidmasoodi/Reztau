@@ -1,9 +1,11 @@
-const Sidebar = ({ isOpen, onClose, onLogout, onShowSettings, onShowOrderHistory, currentUser }) => {
+const Sidebar = ({ isOpen, onClose, onLogout, onShowSettings, onShowOrderHistory, onShowAbout = () => {}, currentUser }) => {
   const handleNavigation = (page) => {
     if (page === 'settings') {
       onShowSettings();
     } else if (page === 'order-history') {
       onShowOrderHistory();
+    } else if (page === 'about') {
+      onShowAbout();
     } else {
       // Handle other pages later
       onClose();
@@ -70,11 +72,12 @@ const Sidebar = ({ isOpen, onClose, onLogout, onShowSettings, onShowOrderHistory
           color: 'white',
           textAlign: 'center'
         }
-      }, [
-        React.createElement('img', {
-          key: 'logo',
-          src: 'Alkahir_logo.png',
-          alt: 'Al Khair Restaurant',
+      }, currentUser ? [
+        // User Avatar
+        currentUser.avatarUrl ? React.createElement('img', {
+          key: 'avatar',
+          src: currentUser.avatarUrl,
+          alt: currentUser.email,
           style: {
             width: '80px',
             height: '80px',
@@ -85,23 +88,46 @@ const Sidebar = ({ isOpen, onClose, onLogout, onShowSettings, onShowOrderHistory
           },
           onError: (e) => {
             e.target.style.display = 'none';
+            e.target.nextSibling.style.display = 'flex';
           }
-        }),
-        React.createElement('h2', {
-          key: 'name',
+        }) : null,
+        
+        // Fallback avatar
+        React.createElement('div', {
+          key: 'avatar-fallback',
           style: {
-            fontSize: '1.25rem',
+            width: '80px',
+            height: '80px',
+            borderRadius: '50%',
+            background: 'rgba(255,255,255,0.2)',
+            display: currentUser.avatarUrl ? 'none' : 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            margin: '0 auto 1rem',
+            color: 'white',
+            fontSize: '2rem',
             fontWeight: '700',
-            marginBottom: '0.5rem'
+            border: '3px solid rgba(255,255,255,0.3)'
           }
-        }, ConfigManager.restaurant?.name || 'Al Khair Restaurant'),
+        }, currentUser.email ? currentUser.email.charAt(0).toUpperCase() : 'U'),
+        
+        // Email
         React.createElement('p', {
-          key: 'user',
+          key: 'email',
+          style: {
+            fontSize: '0.85rem',
+            opacity: 0.9,
+            wordBreak: 'break-word'
+          }
+        }, currentUser.email)
+      ] : [
+        React.createElement('p', {
+          key: 'welcome',
           style: {
             fontSize: '0.85rem',
             opacity: 0.9
           }
-        }, currentUser?.email || 'Welcome!')
+        }, 'Welcome!')
       ]),
       
       // Navigation
@@ -156,6 +182,35 @@ const Sidebar = ({ isOpen, onClose, onLogout, onShowSettings, onShowOrderHistory
               }
             }),
             'Order History'
+          ]),
+          
+          React.createElement('button', {
+            key: 'about',
+            onClick: () => handleNavigation('about'),
+            style: {
+              width: '100%',
+              padding: '0.75rem 1.5rem',
+              background: 'transparent',
+              border: 'none',
+              textAlign: 'left',
+              color: 'var(--text-primary)',
+              fontSize: '0.95rem',
+              cursor: 'pointer',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '0.75rem',
+              transition: 'background-color 0.2s'
+            }
+          }, [
+            React.createElement('i', { 
+              key: 'icon',
+              className: 'fas fa-info-circle',
+              style: { 
+                width: '20px',
+                color: 'var(--primary-color)'
+              }
+            }),
+            'About Restaurant'
           ]),
           
           React.createElement('button', {

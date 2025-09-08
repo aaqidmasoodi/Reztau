@@ -68,7 +68,7 @@ body {
   top: 0;
   left: 0;
   right: 0;
-  z-index: 1000;
+  z-index: 2000;
   background: var(--surface-color);
   backdrop-filter: blur(10px);
   border-bottom: 1px solid var(--border-color);
@@ -416,6 +416,25 @@ body {
   }
 }
 
+/* Animations */
+@keyframes slideInFromRight {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideOutToRight {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(100%);
+  }
+}
+
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -437,7 +456,8 @@ body {
   display: flex;
   z-index: 1000;
   box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
-  padding-bottom: env(safe-area-inset-bottom);
+  padding-bottom: max(env(safe-area-inset-bottom), 1.5rem);
+  padding-top: 0.75rem;
 }
 
 .nav-item {
