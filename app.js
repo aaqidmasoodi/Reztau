@@ -226,7 +226,7 @@ const App = () => {
           }, 'Your past orders will appear here')
         ]);
       
-      case 'profile':
+      case 'about':
         return React.createElement('div', {
           style: { 
             marginTop: 'calc(70px + env(safe-area-inset-top))',

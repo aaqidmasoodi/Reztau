@@ -1,7 +1,7 @@
 const BottomNav = ({ activeTab, onTabChange }) => {
   const navItems = [
     { id: 'menu', label: 'Menu', icon: 'fas fa-utensils' },
-    { id: 'profile', label: 'Profile', icon: 'fas fa-user' }
+    { id: 'about', label: 'About', icon: 'fas fa-info-circle' }
   ];
   
   return React.createElement('nav', {
