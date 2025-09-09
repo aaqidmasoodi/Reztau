@@ -1,4 +1,4 @@
-const CACHE_NAME = 'reztau-v1.5.1';
+const CACHE_NAME = 'reztau-v1.6.0';
 
 // Listen for skip waiting message
 self.addEventListener('message', (event) => {
@@ -17,6 +17,7 @@ const urlsToCache = [
   '/components/MenuItem.js',
   '/components/Cart.js',
   '/components/Menu.js',
+  '/components/DeveloperInfo.js',
   '/utils/config.js',
   '/utils/cart.js',
   '/utils/stripe.js',

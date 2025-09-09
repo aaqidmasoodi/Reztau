@@ -1,4 +1,4 @@
-const Sidebar = ({ isOpen, onClose, onLogout, onShowSettings, onShowOrderHistory, onShowAbout = () => {}, currentUser }) => {
+const Sidebar = ({ isOpen, onClose, onLogout, onShowSettings, onShowOrderHistory, onShowAbout = () => {}, onShowDeveloperInfo = () => {}, currentUser }) => {
   const handleNavigation = (page) => {
     if (page === 'settings') {
       onShowSettings();
@@ -6,6 +6,8 @@ const Sidebar = ({ isOpen, onClose, onLogout, onShowSettings, onShowOrderHistory
       onShowOrderHistory();
     } else if (page === 'about') {
       onShowAbout();
+    } else if (page === 'developer') {
+      onShowDeveloperInfo();
     } else {
       // Handle other pages later
       onClose();

@@ -16,6 +16,7 @@ const App = () => {
   const [showSettings, setShowSettings] = useState(false);
   const [showOrderHistory, setShowOrderHistory] = useState(false);
   const [showAbout, setShowAbout] = useState(false);
+  const [showDeveloperInfo, setShowDeveloperInfo] = useState(false);
   const [showCheckout, setShowCheckout] = useState(false);
   const [isProfileEditing, setIsProfileEditing] = useState(false);
   const [overlayPage, setOverlayPage] = useState(null);
@@ -102,6 +103,7 @@ const App = () => {
     setShowSettings(false);
     setShowOrderHistory(false);
     setShowAbout(false);
+    setShowDeveloperInfo(false);
     setShowItemDetail(false);
     
     setShowCheckout(true);
@@ -114,6 +116,7 @@ const App = () => {
     setShowSettings(false);
     setShowOrderHistory(false);
     setShowAbout(false);
+    setShowDeveloperInfo(false);
     setShowCheckout(false);
     
     setSelectedItem(item);
@@ -231,6 +234,7 @@ const App = () => {
     // Close other overlays first
     setShowOrderHistory(false);
     setShowAbout(false);
+    setShowDeveloperInfo(false);
     setShowItemDetail(false);
     setShowCheckout(false);
     
@@ -248,6 +252,7 @@ const App = () => {
     // Close other overlays first
     setShowSettings(false);
     setShowAbout(false);
+    setShowDeveloperInfo(false);
     setShowItemDetail(false);
     setShowCheckout(false);
     
@@ -262,10 +267,24 @@ const App = () => {
     setShowOrderHistory(false);
     setShowItemDetail(false);
     setShowCheckout(false);
+    setShowDeveloperInfo(false);
     
     setShowAbout(true);
     setShowSidebar(false);
     setOverlayPage('About Restaurant');
+  };
+  
+  const handleShowDeveloperInfo = () => {
+    // Close other overlays first
+    setShowSettings(false);
+    setShowOrderHistory(false);
+    setShowAbout(false);
+    setShowItemDetail(false);
+    setShowCheckout(false);
+    
+    setShowDeveloperInfo(true);
+    setShowSidebar(false);
+    setOverlayPage('Developer Info');
   };
   
   const handleCloseOrderHistory = () => {
@@ -859,6 +878,7 @@ const App = () => {
         onShowSettings: handleShowSettings,
         onShowOrderHistory: handleShowOrderHistory,
         onShowAbout: handleShowAbout,
+        onShowDeveloperInfo: handleShowDeveloperInfo,
         currentUser: currentUser
       }),
       
@@ -871,6 +891,11 @@ const App = () => {
       showOrderHistory && React.createElement(OrderHistory, {
         key: 'order-history',
         onBack: handleCloseOrderHistory
+      }),
+      
+      showDeveloperInfo && React.createElement(DeveloperInfo, {
+        key: 'developer-info',
+        onBack: () => setShowDeveloperInfo(false)
       }),
       
       showItemDetail && React.createElement('div', {
