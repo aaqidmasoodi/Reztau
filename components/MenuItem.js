@@ -28,80 +28,132 @@ const MenuItem = ({ item, onAddToCart, onItemClick, onToggleFavorite }) => {
   const handleToggleFavorite = (e) => {
     e.stopPropagation();
     FavoritesManager.toggleItem(item);
-    setIsFavorite(FavoritesManager.isFavorite(item.id));
-    if (onToggleFavorite) onToggleFavorite();
+    setIsFavorite(!isFavorite);
+    if (onToggleFavorite) {
+      onToggleFavorite(item);
+    }
   };
   
   return React.createElement('div', {
-    className: 'menu-item'
+    className: 'menu-item',
+    onClick: onItemClick ? () => onItemClick(item) : undefined
   }, [
-    React.createElement('img', {
+    React.createElement('div', {
       key: 'image',
-      src: item.image,
-      alt: item.name,
-      className: 'item-image',
-      onClick: () => onItemClick(item),
-      onError: (e) => {
-        e.target.style.display = 'none';
+      style: {
+        position: 'relative',
+        overflow: 'hidden'
       }
-    }),
+    }, [
+      React.createElement('img', {
+        key: 'img',
+        src: item.image,
+        alt: item.name,
+        style: {
+          width: '100%',
+          height: '160px',
+          objectFit: 'cover'
+        },
+        onError: (e) => {
+          e.target.src = 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=400&h=300&fit=crop';
+        }
+      }),
+      
+      React.createElement('button', {
+        key: 'favorite',
+        className: 'btn btn-ghost btn-icon btn-sm',
+        onClick: handleToggleFavorite,
+        style: {
+          position: 'absolute',
+          top: '0.5rem',
+          right: '0.5rem',
+          background: 'rgba(255,255,255,0.9)',
+          backdropFilter: 'blur(4px)'
+        }
+      }, React.createElement('i', {
+        className: `fas fa-heart`,
+        style: { 
+          color: isFavorite ? 'hsl(var(--destructive))' : 'hsl(var(--muted-foreground))'
+        }
+      })),
+      
+      !item.available && React.createElement('div', {
+        key: 'overlay',
+        style: {
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          background: 'rgba(0,0,0,0.7)',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          color: 'white',
+          fontWeight: '600'
+        }
+      }, 'Currently Unavailable')
+    ]),
     
     React.createElement('div', {
       key: 'content',
-      className: 'item-content'
+      className: 'menu-item-content'
     }, [
       React.createElement('div', {
         key: 'header',
-        className: 'item-header'
+        className: 'menu-item-footer'
       }, [
         React.createElement('h3', {
-          key: 'name',
-          className: 'item-name',
-          onClick: () => onItemClick(item)
+          key: 'name'
         }, item.name),
-        React.createElement('div', {
-          key: 'header-right',
-          style: { display: 'flex', alignItems: 'center', gap: '0.5rem' }
-        }, [
-          React.createElement('button', {
-            key: 'favorite-btn',
-            onClick: handleToggleFavorite,
-            style: {
-              background: 'none',
-              border: 'none',
-              color: isFavorite ? 'var(--error-color)' : 'var(--text-secondary)',
-              fontSize: '1.1rem',
-              cursor: 'pointer',
-              padding: '0.25rem',
-              transition: 'all 0.2s'
-            }
-          }, React.createElement('i', { 
-            className: isFavorite ? 'fas fa-heart' : 'far fa-heart' 
-          })),
-          React.createElement('span', {
-            key: 'price',
-            className: 'item-price'
-          }, `€${item.price.toFixed(2)}`)
-        ])
+        React.createElement('span', {
+          key: 'price',
+          className: 'price'
+        }, `€${item.price.toFixed(2)}`)
       ]),
       
       React.createElement('p', {
         key: 'description',
-        className: 'item-description'
+        className: 'text-sm text-muted',
+        style: { marginBottom: '0.75rem' }
       }, item.description),
+      
+      item.dietary && item.dietary.length > 0 && React.createElement('div', {
+        key: 'dietary',
+        style: {
+          display: 'flex',
+          gap: '0.25rem',
+          marginBottom: '0.75rem',
+          flexWrap: 'wrap'
+        }
+      }, item.dietary.map(diet => 
+        React.createElement('span', {
+          key: diet,
+          className: 'badge badge-secondary',
+          style: { fontSize: '0.7rem' }
+        }, diet)
+      )),
       
       React.createElement('div', {
         key: 'actions',
-        className: 'item-actions'
+        style: {
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          gap: '0.75rem'
+        }
       }, [
         React.createElement('div', {
           key: 'quantity',
-          className: 'quantity-selector'
+          className: 'quantity-controls'
         }, [
           React.createElement('button', {
             key: 'decrease',
             className: 'quantity-btn',
-            onClick: () => handleQuantityChange(quantity - 1),
+            onClick: (e) => {
+              e.stopPropagation();
+              handleQuantityChange(quantity - 1);
+            },
             disabled: quantity === 1
           }, React.createElement('i', { className: 'fas fa-minus' })),
           
@@ -113,23 +165,28 @@ const MenuItem = ({ item, onAddToCart, onItemClick, onToggleFavorite }) => {
           React.createElement('button', {
             key: 'increase',
             className: 'quantity-btn',
-            onClick: () => handleQuantityChange(quantity + 1),
+            onClick: (e) => {
+              e.stopPropagation();
+              handleQuantityChange(quantity + 1);
+            },
             disabled: !item.available
           }, React.createElement('i', { className: 'fas fa-plus' }))
         ]),
         
         React.createElement('button', {
           key: 'add-btn',
-          className: 'add-to-cart',
-          onClick: handleAddToCart,
+          className: `btn ${item.available ? 'btn-primary' : 'btn-secondary'} btn-sm`,
+          onClick: (e) => {
+            e.stopPropagation();
+            handleAddToCart();
+          },
           disabled: !item.available || isAdding,
-          style: {
-            opacity: isAdding ? 0.7 : 1
-          }
+          style: { flex: 1 }
         }, [
           React.createElement('i', { 
             key: 'icon',
-            className: 'fas fa-shopping-cart' 
+            className: isAdding ? 'fas fa-spinner fa-spin' : 'fas fa-plus',
+            style: { marginRight: '0.5rem' }
           }),
           React.createElement('span', {
             key: 'text'

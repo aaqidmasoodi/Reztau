@@ -373,7 +373,7 @@ const Sidebar = ({ isOpen, onClose, onLogout, onShowSettings, onShowOrderHistory
             fontSize: '0.75rem',
             color: 'var(--text-secondary)'
           }
-        }, 'Version 1.4.2')
+        }, 'Version 1.5.0')
       ])
     ]),
     

@@ -272,18 +272,10 @@ const Checkout = ({ cartItems, onBack, onOrderComplete, onShowOrderHistory, hide
           React.createElement('input', {
             key: 'input',
             type: 'tel',
+            className: 'input',
             value: customerInfo.phone,
             onChange: (e) => handleInputChange('phone', e.target.value),
-            placeholder: '+353 1 234 5678',
-            style: {
-              width: '100%',
-              padding: '0.75rem',
-              border: '1px solid var(--border-color)',
-              borderRadius: '8px',
-              fontSize: '1rem',
-              outline: 'none',
-              boxSizing: 'border-box'
-            }
+            placeholder: '+353 1 234 5678'
           })
         ]),
         
@@ -304,19 +296,14 @@ const Checkout = ({ cartItems, onBack, onOrderComplete, onShowOrderHistory, hide
           }, 'Delivery Address *'),
           React.createElement('textarea', {
             key: 'input',
+            className: 'input',
             value: customerInfo.address,
             onChange: (e) => handleInputChange('address', e.target.value),
             placeholder: 'Street address, apartment, city, postal code',
             rows: 3,
             style: {
-              width: '100%',
-              padding: '0.75rem',
-              border: '1px solid var(--border-color)',
-              borderRadius: '8px',
-              fontSize: '1rem',
-              outline: 'none',
-              boxSizing: 'border-box',
-              resize: 'vertical'
+              resize: 'vertical',
+              minHeight: '5rem'
             }
           })
         ])
@@ -340,20 +327,12 @@ const Checkout = ({ cartItems, onBack, onOrderComplete, onShowOrderHistory, hide
       // Place order button (conditionally rendered)
       !hideBottomButton && React.createElement('button', {
         key: 'place-order',
+        className: `btn btn-primary btn-lg ${loading ? 'opacity-50' : ''}`,
         onClick: handleSubmit,
         disabled: loading,
         style: {
           width: '100%',
-          padding: '1rem',
-          background: loading ? 'var(--border-color)' : 'linear-gradient(135deg, var(--primary-color), var(--accent-color))',
-          color: 'white',
-          border: 'none',
-          borderRadius: '12px',
-          fontSize: '1.1rem',
-          fontWeight: '700',
-          cursor: loading ? 'not-allowed' : 'pointer',
-          boxShadow: loading ? 'none' : '0 4px 12px rgba(0,0,0,0.15)',
-          transition: 'all 0.2s'
+          marginTop: '1rem'
         }
       }, loading ? 'Processing...' : `Make Payment - €${total.toFixed(2)}`)
     ])
