@@ -114,7 +114,7 @@ const MenuItem = ({ item, onAddToCart, onItemClick, onToggleFavorite }) => {
           style: {
             fontSize: '1.125rem',
             fontWeight: '700',
-            color: '#ffffff'
+            color: '#4ade80'
           }
         }, `€${item.price.toFixed(2)}`)
       ]),
@@ -213,7 +213,7 @@ const MenuItem = ({ item, onAddToCart, onItemClick, onToggleFavorite }) => {
           style: {
             flex: 1,
             padding: '0.375rem 0.75rem',
-            background: item.available ? '#ffffff' : 'rgba(255,255,255,0.3)',
+            background: item.available ? '#4ade80' : 'rgba(255,255,255,0.3)',
             color: item.available ? '#000000' : '#ffffff',
             border: 'none',
             borderRadius: '0.375rem',
