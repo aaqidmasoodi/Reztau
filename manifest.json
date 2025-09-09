@@ -1,13 +1,14 @@
 {
   "name": "Reztau",
   "short_name": "Reztau",
-  "version": "1.2.2",
+  "version": "1.5.1",
   "description": "Restaurant ordering app",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#ffffff",
   "theme_color": "#ffffff",
   "orientation": "portrait",
+  "display_override": ["window-controls-overlay"],
   "icons": [
     {
       "src": "assets/icon-192.png",

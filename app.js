@@ -773,8 +773,8 @@ const App = () => {
         style: {
           position: 'fixed',
           bottom: 'calc(100px + env(safe-area-inset-bottom))',
-          left: '1rem',
-          right: '1rem',
+          left: 'calc(1rem + env(safe-area-inset-left))',
+          right: 'calc(1rem + env(safe-area-inset-right))',
           zIndex: 999,
           background: 'hsl(var(--background))',
           borderTop: '1px solid hsl(var(--border))',
