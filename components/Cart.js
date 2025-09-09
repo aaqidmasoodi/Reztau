@@ -170,23 +170,6 @@ const Cart = ({ items, onUpdateQuantity, onRemoveItem, onCheckout }) => {
         }, [
           React.createElement('span', { key: 'label' }, 'Total'),
           React.createElement('span', { key: 'value' }, `€${total.toFixed(2)}`)
-        ]),
-        
-        React.createElement('button', {
-          key: 'checkout',
-          className: 'btn btn-primary btn-lg',
-          style: { width: '100%', marginTop: '1rem' },
-          onClick: () => onCheckout(total),
-          disabled: !navigator.onLine
-        }, [
-          React.createElement('i', { 
-            key: 'icon',
-            className: 'fas fa-credit-card',
-            style: { marginRight: '0.5rem' }
-          }),
-          React.createElement('span', {
-            key: 'text'
-          }, navigator.onLine ? 'Proceed to Checkout' : 'Online Required for Checkout')
         ])
       ])
     ]))

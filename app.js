@@ -737,8 +737,7 @@ const App = () => {
         }, React.createElement(Cart, {
           items: cartItems,
           onUpdateQuantity: handleUpdateQuantity,
-          onRemoveItem: handleRemoveItem,
-          onCheckout: handleCheckout
+          onRemoveItem: handleRemoveItem
         }));
       
       default:
@@ -767,6 +766,39 @@ const App = () => {
         key: 'main',
         className: 'main-content'
       }, renderContent()),
+      
+      // Sticky checkout button for cart page
+      activeTab === 'cart' && cartItems.length > 0 && React.createElement('div', {
+        key: 'sticky-checkout',
+        style: {
+          position: 'fixed',
+          bottom: 'calc(80px + env(safe-area-inset-bottom))',
+          left: '1rem',
+          right: '1rem',
+          zIndex: 999,
+          background: 'hsl(var(--background))',
+          borderTop: '1px solid hsl(var(--border))',
+          padding: '1rem',
+          boxShadow: '0 -4px 6px -1px rgb(0 0 0 / 0.1)'
+        }
+      }, React.createElement('button', {
+        className: 'btn btn-primary btn-lg',
+        style: { width: '100%' },
+        onClick: () => {
+          const total = cartItems.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+          handleCheckout(total);
+        },
+        disabled: !navigator.onLine
+      }, [
+        React.createElement('i', { 
+          key: 'icon',
+          className: 'fas fa-credit-card',
+          style: { marginRight: '0.5rem' }
+        }),
+        React.createElement('span', {
+          key: 'text'
+        }, navigator.onLine ? 'Proceed to Checkout' : 'Online Required for Checkout')
+      ])),
       
       React.createElement(BottomNav, {
         key: 'nav',
