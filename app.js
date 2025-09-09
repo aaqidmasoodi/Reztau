@@ -1682,10 +1682,12 @@ const App = () => {
           setShowCheckout(false);
           setOverlayPage(null);
           setActiveTab('cart'); // Go to cart page (empty)
-          // Show order history after 10 seconds
+          // Auto-dismiss order success after 10 seconds if still showing
           setTimeout(() => {
-            setShowOrderHistory(true);
-            setOverlayPage('Order History');
+            if (showOrderSuccess) {
+              setShowOrderSuccess(false);
+              setOrderSuccessData(null);
+            }
           }, 10000);
         },
         onShowOrderHistory: () => {
