@@ -1,11 +1,11 @@
-const OrderSuccess = ({ orderId, total, onClose }) => {
+const OrderSuccess = ({ orderId, total, onClose, onShowOrderHistory }) => {
   const [showAnimation, setShowAnimation] = useState(true);
   
   useEffect(() => {
-    // Auto close after 2.5 seconds (more compact timing)
+    // Auto close after 10 seconds
     const timer = setTimeout(() => {
       onClose();
-    }, 2500);
+    }, 10000);
     
     return () => clearTimeout(timer);
   }, [onClose]);
@@ -22,7 +22,7 @@ const OrderSuccess = ({ orderId, total, onClose }) => {
       flexDirection: 'column',
       alignItems: 'center',
       justifyContent: 'center',
-      zIndex: 3000,
+      zIndex: 999999,
       color: 'white',
       textAlign: 'center',
       padding: '1.5rem'
@@ -107,7 +107,12 @@ const OrderSuccess = ({ orderId, total, onClose }) => {
     // Compact action button
     React.createElement('button', {
       key: 'continue',
-      onClick: onClose,
+      onClick: () => {
+        onClose();
+        if (onShowOrderHistory) {
+          onShowOrderHistory();
+        }
+      },
       style: {
         padding: '0.75rem 2rem',
         background: 'rgba(255, 255, 255, 0.9)',
@@ -122,7 +127,7 @@ const OrderSuccess = ({ orderId, total, onClose }) => {
         opacity: 0,
         backdropFilter: 'blur(10px)'
       }
-    }, 'Continue'),
+    }, 'Track Order'),
     
     // Compact auto close indicator
     React.createElement('div', {

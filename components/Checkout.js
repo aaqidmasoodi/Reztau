@@ -1,4 +1,4 @@
-const Checkout = ({ cartItems, onBack, onOrderComplete, onShowOrderHistory }) => {
+const Checkout = ({ cartItems, onBack, onOrderComplete, onShowOrderHistory, hideBottomButton = false, checkoutTrigger = 0, onSetLoading, onSetError, onShowOrderSuccess }) => {
   const [customerInfo, setCustomerInfo] = useState({
     name: '',
     email: '',
@@ -22,6 +22,52 @@ const Checkout = ({ cartItems, onBack, onOrderComplete, onShowOrderHistory }) =>
     }
   }, []);
   
+  // Listen for external checkout trigger
+  useEffect(() => {
+    if (checkoutTrigger > 0 && !loading) {
+      // Validate form before proceeding
+      const isValid = validateForm();
+      if (isValid) {
+        // Set loading state in parent
+        if (onSetLoading) onSetLoading(true);
+        handleSubmit();
+      }
+    }
+  }, [checkoutTrigger]);
+  
+  const validateForm = () => {
+    // Check required fields
+    if (!customerInfo.name.trim()) {
+      const errorMsg = 'Please enter your name';
+      setError(errorMsg);
+      if (onSetError) onSetError(errorMsg);
+      return false;
+    }
+    if (!customerInfo.email.trim()) {
+      const errorMsg = 'Please enter your email';
+      setError(errorMsg);
+      if (onSetError) onSetError(errorMsg);
+      return false;
+    }
+    if (!customerInfo.phone.trim()) {
+      const errorMsg = 'Please enter your phone number';
+      setError(errorMsg);
+      if (onSetError) onSetError(errorMsg);
+      return false;
+    }
+    if (!customerInfo.address.trim()) {
+      const errorMsg = 'Please enter your address';
+      setError(errorMsg);
+      if (onSetError) onSetError(errorMsg);
+      return false;
+    }
+    
+    // Clear any existing errors
+    setError('');
+    if (onSetError) onSetError('');
+    return true;
+  };
+  
   const total = cartItems.reduce((sum, item) => sum + (item.price * item.quantity), 0);
   
   const handleInputChange = (field, value) => {
@@ -34,12 +80,18 @@ const Checkout = ({ cartItems, onBack, onOrderComplete, onShowOrderHistory }) =>
   const handleSubmit = async () => {
     // Validate form - only phone and address required
     if (!customerInfo.phone) {
-      setError('Please provide a phone number');
+      const errorMsg = 'Please provide a phone number';
+      setError(errorMsg);
+      if (onSetLoading) onSetLoading(false); // Reset loading state
+      if (onSetError) onSetError(errorMsg);
       return;
     }
     
     if (!customerInfo.address) {
-      setError('Please provide a delivery address');
+      const errorMsg = 'Please provide a delivery address';
+      setError(errorMsg);
+      if (onSetLoading) onSetLoading(false); // Reset loading state
+      if (onSetError) onSetError(errorMsg);
       return;
     }
     
@@ -64,19 +116,24 @@ const Checkout = ({ cartItems, onBack, onOrderComplete, onShowOrderHistory }) =>
           orderId: result.orderId,
           total: total
         };
-        console.log('Setting completed order:', orderData);
-        setCompletedOrder(orderData);
-        console.log('Setting showSuccess to true');
-        setShowSuccess(true);
         
-        // Don't call onOrderComplete here - wait for animation to finish
+        // Show external OrderSuccess instead of internal one
+        if (onShowOrderSuccess) {
+          onShowOrderSuccess(orderData);
+        } else {
+          // Fallback to internal success
+          setCompletedOrder(orderData);
+          setShowSuccess(true);
+        }
       } else {
         throw new Error('Payment failed');
       }
-      
     } catch (error) {
-      console.error('Checkout failed:', error);
-      setError(error.message || 'Order failed. Please try again.');
+      console.error('Order failed:', error);
+      const errorMsg = error.message || 'Failed to process order. Please try again.';
+      setError(errorMsg);
+      if (onSetError) onSetError(errorMsg);
+      if (onSetLoading) onSetLoading(false); // Reset loading state on error
     } finally {
       setLoading(false);
     }
@@ -93,6 +150,12 @@ const Checkout = ({ cartItems, onBack, onOrderComplete, onShowOrderHistory }) =>
         console.log('OrderSuccess closing');
         setShowSuccess(false);
         onOrderComplete(); // Clear cart and close checkout
+      },
+      onShowOrderHistory: () => {
+        // This will be called when user clicks "Track Order"
+        if (onShowOrderHistory) {
+          onShowOrderHistory();
+        }
       }
     });
   }
@@ -309,8 +372,8 @@ const Checkout = ({ cartItems, onBack, onOrderComplete, onShowOrderHistory }) =>
         }
       }, error),
       
-      // Place order button
-      React.createElement('button', {
+      // Place order button (conditionally rendered)
+      !hideBottomButton && React.createElement('button', {
         key: 'place-order',
         onClick: handleSubmit,
         disabled: loading,

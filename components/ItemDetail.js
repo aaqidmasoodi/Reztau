@@ -36,77 +36,17 @@ const ItemDetail = ({ item, onBack, onAddToCart }) => {
   
   return React.createElement('div', {
     style: {
-      marginTop: 'calc(70px + env(safe-area-inset-top))',
-      minHeight: 'calc(100vh - 70px - env(safe-area-inset-top))',
+      minHeight: '100vh',
       background: 'var(--background-color)',
       paddingBottom: '120px'
     }
   }, [
-    // Header with back button
-    React.createElement('div', {
-      key: 'header',
-      style: {
-        position: 'sticky',
-        top: 'calc(70px + env(safe-area-inset-top))',
-        background: 'var(--surface-color)',
-        borderBottom: '1px solid var(--border-color)',
-        padding: '0.75rem 1rem',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-        zIndex: 100
-      }
-    }, [
-      React.createElement('div', {
-        key: 'header-left',
-        style: { display: 'flex', alignItems: 'center', gap: '1rem' }
-      }, [
-        React.createElement('button', {
-          key: 'back-btn',
-          onClick: onBack,
-          style: {
-            background: 'none',
-            border: 'none',
-            color: 'var(--primary-color)',
-            fontSize: '1.25rem',
-            cursor: 'pointer',
-            padding: '0.5rem'
-          }
-        }, React.createElement('i', { className: 'fas fa-arrow-left' })),
-        
-        React.createElement('h1', {
-          key: 'title',
-          style: {
-            fontSize: '1.1rem',
-            fontWeight: '700',
-            color: 'var(--text-primary)'
-          }
-        }, item.name)
-      ]),
-      
-      React.createElement('button', {
-        key: 'favorite-btn',
-        onClick: handleToggleFavorite,
-        style: {
-          background: 'none',
-          border: 'none',
-          color: isFavorite ? 'var(--error-color)' : 'var(--text-secondary)',
-          fontSize: '1.5rem',
-          cursor: 'pointer',
-          padding: '0.5rem',
-          transition: 'all 0.2s'
-        }
-      }, React.createElement('i', { 
-        className: isFavorite ? 'fas fa-heart' : 'far fa-heart' 
-      }))
-    ]),
-    
-    // Hero image
+    // Hero image (moved to top, close to header)
     React.createElement('div', {
       key: 'hero',
       style: {
         position: 'relative',
-        height: '200px',
+        height: '250px',
         overflow: 'hidden'
       }
     }, [
@@ -139,6 +79,44 @@ const ItemDetail = ({ item, onBack, onAddToCart }) => {
           fontWeight: '700'
         }
       }, `€${item.price.toFixed(2)}`)
+    ]),
+    
+    // Item name and favorite button (under image)
+    React.createElement('div', {
+      key: 'item-header',
+      style: {
+        padding: '1rem',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        borderBottom: '1px solid var(--border-color)'
+      }
+    }, [
+      React.createElement('h1', {
+        key: 'item-name',
+        style: {
+          fontSize: '1.5rem',
+          fontWeight: '700',
+          color: 'var(--text-primary)',
+          margin: 0
+        }
+      }, item.name),
+      
+      React.createElement('button', {
+        key: 'favorite-btn',
+        onClick: handleToggleFavorite,
+        style: {
+          background: 'none',
+          border: 'none',
+          color: isFavorite ? 'var(--error-color)' : 'var(--text-secondary)',
+          fontSize: '1.5rem',
+          cursor: 'pointer',
+          padding: '0.5rem',
+          transition: 'all 0.2s'
+        }
+      }, React.createElement('i', { 
+        className: isFavorite ? 'fas fa-heart' : 'far fa-heart' 
+      }))
     ]),
     
     // Content
@@ -388,118 +366,6 @@ const ItemDetail = ({ item, onBack, onAddToCart }) => {
             fontSize: '0.9rem'
           }
         }, item.servingInfo)
-      ])
-    ]),
-    
-    // Fixed bottom add to cart section
-    React.createElement('div', {
-      key: 'bottom-section',
-      style: {
-        position: 'fixed',
-        bottom: 'calc(80px + env(safe-area-inset-bottom))',
-        left: 0,
-        right: 0,
-        background: 'var(--surface-color)',
-        borderTop: '1px solid var(--border-color)',
-        padding: '1rem',
-        boxShadow: '0 -4px 20px rgba(0,0,0,0.1)'
-      }
-    }, [
-      React.createElement('div', {
-        key: 'controls',
-        style: {
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-          gap: '1rem'
-        }
-      }, [
-        React.createElement('div', {
-          key: 'quantity-controls',
-          style: {
-            display: 'flex',
-            alignItems: 'center',
-            gap: '0.5rem',
-            background: 'var(--border-color)',
-            borderRadius: '20px',
-            padding: '0.25rem'
-          }
-        }, [
-          React.createElement('button', {
-            key: 'decrease',
-            onClick: () => setQuantity(Math.max(1, quantity - 1)),
-            style: {
-              background: 'var(--primary-color)',
-              color: 'white',
-              border: 'none',
-              width: '28px',
-              height: '28px',
-              borderRadius: '50%',
-              cursor: 'pointer',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              fontSize: '0.8rem'
-            }
-          }, React.createElement('i', { className: 'fas fa-minus' })),
-          
-          React.createElement('span', {
-            key: 'display',
-            style: {
-              fontWeight: '600',
-              minWidth: '1.5rem',
-              textAlign: 'center',
-              fontSize: '0.9rem'
-            }
-          }, quantity),
-          
-          React.createElement('button', {
-            key: 'increase',
-            onClick: () => setQuantity(quantity + 1),
-            style: {
-              background: 'var(--primary-color)',
-              color: 'white',
-              border: 'none',
-              width: '28px',
-              height: '28px',
-              borderRadius: '50%',
-              cursor: 'pointer',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              fontSize: '0.8rem'
-            }
-          }, React.createElement('i', { className: 'fas fa-plus' }))
-        ]),
-        
-        React.createElement('button', {
-          key: 'add-btn',
-          onClick: handleAddToCart,
-          disabled: !item.available || isAdding,
-          style: {
-            background: 'linear-gradient(135deg, var(--primary-color), var(--accent-color))',
-            color: 'white',
-            border: 'none',
-            padding: '0.75rem 1.5rem',
-            borderRadius: '20px',
-            fontSize: '1rem',
-            fontWeight: '700',
-            cursor: 'pointer',
-            flex: 1,
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            gap: '0.5rem'
-          }
-        }, [
-          React.createElement('i', { 
-            key: 'icon',
-            className: 'fas fa-shopping-cart' 
-          }),
-          React.createElement('span', {
-            key: 'text'
-          }, isAdding ? 'Adding...' : `Add ${quantity} - €${(item.price * quantity).toFixed(2)}`)
-        ])
       ])
     ])
   ]);

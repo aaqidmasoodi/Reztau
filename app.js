@@ -19,6 +19,12 @@ const App = () => {
   const [showCheckout, setShowCheckout] = useState(false);
   const [isProfileEditing, setIsProfileEditing] = useState(false);
   const [overlayPage, setOverlayPage] = useState(null);
+  const [itemDetailQuantity, setItemDetailQuantity] = useState(1);
+  const [checkoutTrigger, setCheckoutTrigger] = useState(0);
+  const [checkoutLoading, setCheckoutLoading] = useState(false);
+  const [checkoutError, setCheckoutError] = useState('');
+  const [showOrderSuccess, setShowOrderSuccess] = useState(false);
+  const [orderSuccessData, setOrderSuccessData] = useState(null);
   
   // Initialize app
   // Update cart count when cart items change
@@ -88,12 +94,35 @@ const App = () => {
   };
   
   const handleCheckout = (total) => {
+    // Close other overlays first
+    setShowSettings(false);
+    setShowOrderHistory(false);
+    setShowAbout(false);
+    setShowItemDetail(false);
+    
     setShowCheckout(true);
+    setShowSidebar(false);
+    setOverlayPage('Checkout');
   };
   
   const handleItemClick = (item) => {
+    // Close other overlays first
+    setShowSettings(false);
+    setShowOrderHistory(false);
+    setShowAbout(false);
+    setShowCheckout(false);
+    
     setSelectedItem(item);
-    setCurrentView('item-detail');
+    setShowItemDetail(true);
+    setShowSidebar(false);
+    setOverlayPage('Item Details');
+    setItemDetailQuantity(1); // Reset quantity
+  };
+  
+  const handleCloseItemDetail = () => {
+    setShowItemDetail(false);
+    setSelectedItem(null);
+    setOverlayPage(null);
   };
   
   const handleBackToMenu = () => {
@@ -114,15 +143,46 @@ const App = () => {
   };
   
   const handleCartClick = () => {
+    // Close all overlays first
+    setShowSettings(false);
+    setShowOrderHistory(false);
+    setShowAbout(false);
+    setShowItemDetail(false);
+    setShowCheckout(false);
+    setShowSidebar(false);
+    setOverlayPage(null);
+    
     setActiveTab('cart');
   };
   
   const handleFavoritesClick = () => {
+    // Close all overlays first
+    setShowSettings(false);
+    setShowOrderHistory(false);
+    setShowAbout(false);
+    setShowItemDetail(false);
+    setShowCheckout(false);
+    setShowSidebar(false);
+    setOverlayPage(null);
+    
     setActiveTab('favorites');
   };
   
   const handleProfileEditToggle = () => {
     setIsProfileEditing(!isProfileEditing);
+  };
+  
+  const handleTabChange = (tab) => {
+    // Close all overlays first
+    setShowSettings(false);
+    setShowOrderHistory(false);
+    setShowAbout(false);
+    setShowItemDetail(false);
+    setShowCheckout(false);
+    setShowSidebar(false);
+    setOverlayPage(null);
+    
+    setActiveTab(tab);
   };
   
   const handleOverlayBack = () => {
@@ -139,6 +199,8 @@ const App = () => {
           setShowAbout(false);
           setOverlayPage(null);
         }
+        else if (showItemDetail) handleCloseItemDetail();
+        else if (showCheckout) handleCloseCheckout();
       }, 300);
     } else {
       // Fallback without animation
@@ -148,6 +210,8 @@ const App = () => {
         setShowAbout(false);
         setOverlayPage(null);
       }
+      else if (showItemDetail) handleCloseItemDetail();
+      else if (showCheckout) handleCloseCheckout();
     }
   };
   
@@ -163,6 +227,8 @@ const App = () => {
     // Close other overlays first
     setShowOrderHistory(false);
     setShowAbout(false);
+    setShowItemDetail(false);
+    setShowCheckout(false);
     
     setShowSettings(true);
     setShowSidebar(false);
@@ -178,6 +244,8 @@ const App = () => {
     // Close other overlays first
     setShowSettings(false);
     setShowAbout(false);
+    setShowItemDetail(false);
+    setShowCheckout(false);
     
     setShowOrderHistory(true);
     setShowSidebar(false);
@@ -188,6 +256,8 @@ const App = () => {
     // Close other overlays first
     setShowSettings(false);
     setShowOrderHistory(false);
+    setShowItemDetail(false);
+    setShowCheckout(false);
     
     setShowAbout(true);
     setShowSidebar(false);
@@ -201,6 +271,7 @@ const App = () => {
   
   const handleCloseCheckout = () => {
     setShowCheckout(false);
+    setOverlayPage(null);
   };
   
   if (loading) {
@@ -235,14 +306,6 @@ const App = () => {
   }
   
   const renderContent = () => {
-    if (currentView === 'item-detail' && selectedItem) {
-      return React.createElement(ItemDetail, {
-        item: selectedItem,
-        onBack: handleBackToMenu,
-        onAddToCart: handleAddToCart
-      });
-    }
-    
     switch (activeTab) {
       case 'menu':
         return React.createElement(Menu, {
@@ -704,7 +767,7 @@ const App = () => {
       React.createElement(BottomNav, {
         key: 'nav',
         activeTab: activeTab,
-        onTabChange: setActiveTab
+        onTabChange: handleTabChange
       }),
       
       React.createElement(Sidebar, {
@@ -728,6 +791,72 @@ const App = () => {
         key: 'order-history',
         onBack: handleCloseOrderHistory
       }),
+      
+      showItemDetail && React.createElement('div', {
+        key: 'item-detail-overlay',
+        style: {
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          background: 'var(--background-color)',
+          zIndex: 1000,
+          overflow: 'auto',
+          paddingTop: 'calc(70px + env(safe-area-inset-top))',
+          paddingBottom: '100px',
+          transform: 'translateX(0)',
+          transition: 'transform 0.3s ease-out',
+          animation: 'slideInFromRight 0.3s ease-out'
+        }
+      }, [
+        React.createElement(ItemDetail, {
+          key: 'item-detail',
+          item: selectedItem,
+          onBack: handleCloseItemDetail,
+          onAddToCart: handleAddToCart
+        })
+      ]),
+      
+      showCheckout && React.createElement('div', {
+        key: 'checkout-overlay',
+        style: {
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          background: 'var(--background-color)',
+          zIndex: 1000,
+          overflow: 'auto',
+          paddingTop: 'calc(70px + env(safe-area-inset-top))',
+          paddingBottom: '100px',
+          transform: 'translateX(0)',
+          transition: 'transform 0.3s ease-out',
+          animation: 'slideInFromRight 0.3s ease-out'
+        }
+      }, [
+        React.createElement(Checkout, {
+          key: 'checkout',
+          cartItems: cartItems,
+          onBack: handleCloseCheckout,
+          onOrderComplete: (orderId) => {
+            // This will be handled by OrderSuccess onClose now
+          },
+          hideBottomButton: true, // Tell checkout to hide its bottom button
+          checkoutTrigger: checkoutTrigger, // Pass trigger to component
+          onShowOrderHistory: () => {
+            setShowOrderHistory(true);
+            setOverlayPage('Order History');
+          },
+          onSetLoading: setCheckoutLoading, // Pass loading state setter
+          onSetError: setCheckoutError, // Pass error state setter
+          onShowOrderSuccess: (orderData) => {
+            setOrderSuccessData(orderData);
+            setShowOrderSuccess(true);
+          }
+        })
+      ]),
       
       showAbout && React.createElement('div', {
         key: 'about-overlay',
@@ -810,6 +939,134 @@ const App = () => {
                 margin: '0 auto'
               }
             }, ConfigManager.restaurant?.description)
+          ]),
+          
+          // Delivery info (moved to top)
+          ConfigManager.restaurant?.delivery && React.createElement('div', {
+            key: 'delivery',
+            style: {
+              background: 'var(--surface-color)',
+              margin: '0.75rem',
+              borderRadius: '12px',
+              padding: '1rem 0.75rem',
+              boxShadow: 'var(--shadow)'
+            }
+          }, [
+            React.createElement('h2', {
+              key: 'title',
+              style: {
+                fontSize: '1.1rem',
+                fontWeight: '700',
+                marginBottom: '0.75rem',
+                color: 'var(--text-primary)',
+                textAlign: 'center'
+              }
+            }, 'Delivery Information'),
+            
+            React.createElement('div', {
+              key: 'info',
+              style: {
+                display: 'grid',
+                gridTemplateColumns: 'repeat(3, 1fr)',
+                gap: '0.75rem'
+              }
+            }, [
+              React.createElement('div', {
+                key: 'time',
+                style: {
+                  textAlign: 'center'
+                }
+              }, [
+                React.createElement('i', {
+                  key: 'icon',
+                  className: 'fas fa-clock',
+                  style: { 
+                    fontSize: '1.2rem', 
+                    marginBottom: '0.25rem',
+                    color: 'var(--primary-color)'
+                  }
+                }),
+                React.createElement('div', {
+                  key: 'value',
+                  style: { 
+                    fontSize: '0.85rem', 
+                    fontWeight: '700',
+                    color: 'var(--text-primary)'
+                  }
+                }, ConfigManager.restaurant.delivery.estimatedTime),
+                React.createElement('div', {
+                  key: 'label',
+                  style: { 
+                    fontSize: '0.7rem',
+                    color: 'var(--text-secondary)'
+                  }
+                }, 'Delivery Time')
+              ]),
+              
+              React.createElement('div', {
+                key: 'fee',
+                style: {
+                  textAlign: 'center'
+                }
+              }, [
+                React.createElement('i', {
+                  key: 'icon',
+                  className: 'fas fa-truck',
+                  style: { 
+                    fontSize: '1.2rem', 
+                    marginBottom: '0.25rem',
+                    color: 'var(--primary-color)'
+                  }
+                }),
+                React.createElement('div', {
+                  key: 'value',
+                  style: { 
+                    fontSize: '0.85rem', 
+                    fontWeight: '700',
+                    color: 'var(--text-primary)'
+                  }
+                }, `€${ConfigManager.restaurant.delivery.fee}`),
+                React.createElement('div', {
+                  key: 'label',
+                  style: { 
+                    fontSize: '0.7rem',
+                    color: 'var(--text-secondary)'
+                  }
+                }, 'Delivery Fee')
+              ]),
+              
+              React.createElement('div', {
+                key: 'free',
+                style: {
+                  textAlign: 'center'
+                }
+              }, [
+                React.createElement('i', {
+                  key: 'icon',
+                  className: 'fas fa-gift',
+                  style: { 
+                    fontSize: '1.2rem', 
+                    marginBottom: '0.25rem',
+                    color: 'var(--accent-color)'
+                  }
+                }),
+                React.createElement('div', {
+                  key: 'value',
+                  style: { 
+                    fontSize: '0.85rem', 
+                    fontWeight: '700',
+                    color: 'var(--text-primary)'
+                  }
+                }, `€${ConfigManager.restaurant.delivery.freeDeliveryMinimum}+`),
+                React.createElement('div', {
+                  key: 'label',
+                  style: { 
+                    fontSize: '0.7rem',
+                    color: 'var(--text-secondary)'
+                  }
+                }, 'Free Delivery')
+              ])
+            ])
           ]),
           
           // Specialties section
@@ -1118,104 +1375,266 @@ const App = () => {
             ])
           ]),
           
-          // Delivery info
-          ConfigManager.restaurant?.delivery && React.createElement('div', {
-            key: 'delivery',
+          // Bottom padding for better scrolling
+          React.createElement('div', {
+            key: 'bottom-padding',
             style: {
-              background: 'linear-gradient(135deg, var(--primary-color), var(--accent-color))',
-              margin: '0.75rem',
-              borderRadius: '12px',
-              padding: '1rem 0.75rem',
-              color: 'white',
-              textAlign: 'center'
+              height: '4rem'
+            }
+          })
+        ])
+      ]),
+      
+      // Order Success Animation (at main app level - highest priority)
+      showOrderSuccess && orderSuccessData && React.createElement(OrderSuccess, {
+        key: 'order-success',
+        orderId: orderSuccessData.orderId,
+        total: orderSuccessData.total,
+        onClose: () => {
+          setShowOrderSuccess(false);
+          setOrderSuccessData(null);
+          // Complete the order flow
+          CartManager.clear();
+          setCartItems([]);
+          setCheckoutLoading(false);
+          setShowCheckout(false);
+          setOverlayPage(null);
+          setActiveTab('cart'); // Go to cart page (empty)
+          // Show order history after 10 seconds
+          setTimeout(() => {
+            setShowOrderHistory(true);
+            setOverlayPage('Order History');
+          }, 10000);
+        },
+        onShowOrderHistory: () => {
+          setShowOrderHistory(true);
+          setOverlayPage('Order History');
+        }
+      }),
+      
+      // Checkout Bottom Controls (at main app level)
+      showCheckout && React.createElement('div', {
+        key: 'checkout-bottom-controls',
+        style: {
+          position: 'fixed',
+          bottom: 0,
+          left: 0,
+          right: 0,
+          background: 'var(--surface-color)',
+          backdropFilter: 'blur(10px)',
+          borderTop: '1px solid var(--border-color)',
+          display: 'flex',
+          zIndex: 1002,
+          boxShadow: '0 -2px 10px rgba(0,0,0,0.1)',
+          paddingBottom: 'max(env(safe-area-inset-bottom), 2.5rem)',
+          paddingTop: '0.75rem',
+          paddingLeft: '1rem',
+          paddingRight: '1rem'
+        }
+      }, [
+        React.createElement('div', {
+          key: 'checkout-controls',
+          style: {
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            gap: '1rem',
+            width: '100%'
+          }
+        }, [
+          React.createElement('div', {
+            key: 'total-display',
+            style: {
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'flex-start'
             }
           }, [
-            React.createElement('h2', {
-              key: 'title',
+            React.createElement('span', {
+              key: 'label',
               style: {
-                fontSize: '1.1rem',
+                fontSize: '0.8rem',
+                color: 'var(--text-secondary)',
+                fontWeight: '500'
+              }
+            }, 'Total'),
+            React.createElement('span', {
+              key: 'amount',
+              style: {
+                fontSize: '1.25rem',
                 fontWeight: '700',
-                marginBottom: '0.75rem'
+                color: 'var(--text-primary)'
               }
-            }, 'Delivery Information'),
-            
-            React.createElement('div', {
-              key: 'info',
-              style: {
-                display: 'grid',
-                gridTemplateColumns: 'repeat(3, 1fr)',
-                gap: '0.75rem'
-              }
-            }, [
-              React.createElement('div', {
-                key: 'time'
-              }, [
-                React.createElement('i', {
-                  key: 'icon',
-                  className: 'fas fa-clock',
-                  style: { fontSize: '1.2rem', marginBottom: '0.25rem' }
-                }),
-                React.createElement('div', {
-                  key: 'value',
-                  style: { fontSize: '0.85rem', fontWeight: '700' }
-                }, ConfigManager.restaurant.delivery.estimatedTime),
-                React.createElement('div', {
-                  key: 'label',
-                  style: { fontSize: '0.7rem', opacity: 0.8 }
-                }, 'Delivery Time')
-              ]),
-              
-              React.createElement('div', {
-                key: 'fee'
-              }, [
-                React.createElement('i', {
-                  key: 'icon',
-                  className: 'fas fa-truck',
-                  style: { fontSize: '1.2rem', marginBottom: '0.25rem' }
-                }),
-                React.createElement('div', {
-                  key: 'value',
-                  style: { fontSize: '0.85rem', fontWeight: '700' }
-                }, `€${ConfigManager.restaurant.delivery.fee}`),
-                React.createElement('div', {
-                  key: 'label',
-                  style: { fontSize: '0.7rem', opacity: 0.8 }
-                }, 'Delivery Fee')
-              ]),
-              
-              React.createElement('div', {
-                key: 'free'
-              }, [
-                React.createElement('i', {
-                  key: 'icon',
-                  className: 'fas fa-gift',
-                  style: { fontSize: '1.2rem', marginBottom: '0.25rem' }
-                }),
-                React.createElement('div', {
-                  key: 'value',
-                  style: { fontSize: '0.85rem', fontWeight: '700' }
-                }, `€${ConfigManager.restaurant.delivery.freeDeliveryMinimum}+`),
-                React.createElement('div', {
-                  key: 'label',
-                  style: { fontSize: '0.7rem', opacity: 0.8 }
-                }, 'Free Delivery')
-              ])
-            ])
+            }, `€${CartManager.getTotal().toFixed(2)}`)
+          ]),
+          
+          React.createElement('button', {
+            key: 'place-order-btn',
+            onClick: () => {
+              setCheckoutTrigger(prev => prev + 1); // Trigger checkout validation
+            },
+            disabled: cartItems.length === 0 || checkoutLoading,
+            style: {
+              background: (cartItems.length === 0 || checkoutLoading)
+                ? 'var(--border-color)' 
+                : 'linear-gradient(135deg, var(--primary-color), var(--accent-color))',
+              color: (cartItems.length === 0 || checkoutLoading) ? 'var(--text-secondary)' : 'white',
+              border: 'none',
+              padding: '0.875rem 2rem',
+              borderRadius: '25px',
+              fontSize: '1rem',
+              fontWeight: '700',
+              cursor: (cartItems.length === 0 || checkoutLoading) ? 'not-allowed' : 'pointer',
+              flex: 1,
+              maxWidth: '200px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              gap: '0.5rem',
+              minHeight: '50px'
+            }
+          }, [
+            React.createElement('i', { 
+              key: 'icon',
+              className: checkoutLoading ? 'fas fa-spinner fa-spin' : 'fas fa-credit-card'
+            }),
+            React.createElement('span', {
+              key: 'text'
+            }, checkoutLoading ? 'Processing...' : 'Place Order')
           ])
         ])
       ]),
       
-      showCheckout && React.createElement(Checkout, {
-        key: 'checkout',
-        cartItems: cartItems,
-        onBack: handleCloseCheckout,
-        onOrderComplete: () => {
-          CartManager.clear(); // Clear localStorage
-          setCartItems([]); // Clear React state
-          setShowCheckout(false);
-          setActiveTab('menu');
+      // Item Detail Bottom Controls (at main app level)
+      showItemDetail && React.createElement('div', {
+        key: 'item-detail-bottom-controls',
+        style: {
+          position: 'fixed',
+          bottom: 0,
+          left: 0,
+          right: 0,
+          background: 'var(--surface-color)',
+          backdropFilter: 'blur(10px)',
+          borderTop: '1px solid var(--border-color)',
+          display: 'flex',
+          zIndex: 1002,
+          boxShadow: '0 -2px 10px rgba(0,0,0,0.1)',
+          paddingBottom: 'max(env(safe-area-inset-bottom), 2.5rem)',
+          paddingTop: '0.75rem',
+          paddingLeft: '1rem',
+          paddingRight: '1rem'
         }
-      })
+      }, [
+        React.createElement('div', {
+          key: 'controls',
+          style: {
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            gap: '1rem',
+            width: '100%'
+          }
+        }, [
+          React.createElement('div', {
+            key: 'quantity-controls',
+            style: {
+              display: 'flex',
+              alignItems: 'center',
+              gap: '0.5rem',
+              background: 'var(--border-color)',
+              borderRadius: '20px',
+              padding: '0.25rem'
+            }
+          }, [
+            React.createElement('button', {
+              key: 'decrease',
+              onClick: () => {
+                setItemDetailQuantity(Math.max(1, itemDetailQuantity - 1));
+              },
+              style: {
+                background: 'var(--primary-color)',
+                color: 'white',
+                border: 'none',
+                width: '32px',
+                height: '32px',
+                borderRadius: '50%',
+                cursor: 'pointer',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                fontSize: '0.9rem'
+              }
+            }, React.createElement('i', { className: 'fas fa-minus' })),
+            
+            React.createElement('span', {
+              key: 'display',
+              style: {
+                fontWeight: '600',
+                minWidth: '2rem',
+                textAlign: 'center',
+                fontSize: '1rem',
+                color: 'var(--text-primary)'
+              }
+            }, itemDetailQuantity),
+            
+            React.createElement('button', {
+              key: 'increase',
+              onClick: () => {
+                setItemDetailQuantity(itemDetailQuantity + 1);
+              },
+              style: {
+                background: 'var(--primary-color)',
+                color: 'white',
+                border: 'none',
+                width: '32px',
+                height: '32px',
+                borderRadius: '50%',
+                cursor: 'pointer',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                fontSize: '0.9rem'
+              }
+            }, React.createElement('i', { className: 'fas fa-plus' }))
+          ]),
+          
+          React.createElement('button', {
+            key: 'add-btn',
+            onClick: () => {
+              // Add multiple items based on quantity
+              for (let i = 0; i < itemDetailQuantity; i++) {
+                handleAddToCart(selectedItem);
+              }
+              setItemDetailQuantity(1); // Reset quantity after adding
+            },
+            style: {
+              background: 'linear-gradient(135deg, var(--primary-color), var(--accent-color))',
+              color: 'white',
+              border: 'none',
+              padding: '0.875rem 1.5rem',
+              borderRadius: '25px',
+              fontSize: '1rem',
+              fontWeight: '700',
+              cursor: 'pointer',
+              flex: 1,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              gap: '0.5rem',
+              minHeight: '50px'
+            }
+          }, [
+            React.createElement('i', { 
+              key: 'icon',
+              className: 'fas fa-shopping-cart' 
+            }),
+            React.createElement('span', {
+              key: 'text'
+            }, `Add ${itemDetailQuantity} - €${((selectedItem?.price || 0) * itemDetailQuantity).toFixed(2)}`)
+          ])
+        ])
+      ]),
+      
     ])
   );
 };

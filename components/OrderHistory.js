@@ -177,7 +177,7 @@ const OrderHistory = ({ onBack }) => {
       ]),
       
       // Orders list
-      orders.map(order => 
+      ...orders.map(order => 
         React.createElement('div', {
           key: order.id,
           style: {
@@ -349,6 +349,6 @@ const OrderHistory = ({ onBack }) => {
           ])
         ])
       )
-    ])
+    ].filter(Boolean))
   ]);
 };
