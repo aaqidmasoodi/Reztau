@@ -534,9 +534,14 @@ body {
 
 .menu-item img {
   width: 100%;
-  height: 200px;
+  height: 100%;
   object-fit: cover;
+}
+
+.menu-item > div:first-child {
+  width: 100%;
   aspect-ratio: 1;
+  overflow: hidden;
 }
 
 .menu-item-content {
