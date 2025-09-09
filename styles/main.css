@@ -1,5 +1,14 @@
-/* Hide scrollbars globally */
+/* Native App Behaviors - Disable all browser interactions */
 * {
+  -webkit-touch-callout: none; /* Disable callout on iOS */
+  -webkit-user-select: none; /* Disable text selection on WebKit */
+  -khtml-user-select: none; /* Disable text selection on KHTML */
+  -moz-user-select: none; /* Disable text selection on Firefox */
+  -ms-user-select: none; /* Disable text selection on IE/Edge */
+  user-select: none; /* Disable text selection */
+  -webkit-tap-highlight-color: transparent; /* Remove tap highlight */
+  -webkit-focus-ring-color: transparent; /* Remove focus ring */
+  outline: none; /* Remove focus outline */
   scrollbar-width: none; /* Firefox */
   -ms-overflow-style: none; /* Internet Explorer 10+ */
 }
@@ -7,6 +16,65 @@
 *::-webkit-scrollbar {
   display: none; /* WebKit */
 }
+
+html, body {
+  -webkit-text-size-adjust: 100%; /* Prevent text size adjustment */
+  -ms-text-size-adjust: 100%; /* Prevent text size adjustment on IE */
+  text-size-adjust: 100%; /* Prevent text size adjustment */
+  -webkit-font-smoothing: antialiased; /* Better font rendering */
+  -moz-osx-font-smoothing: grayscale; /* Better font rendering on macOS */
+  touch-action: pan-x pan-y; /* Allow only panning */
+  overscroll-behavior: none; /* Disable overscroll bounce */
+  overscroll-behavior-y: contain; /* Disable pull-to-refresh */
+  -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
+}
+
+/* Disable zoom and double-tap zoom */
+input, textarea, select, button {
+  font-size: 16px !important; /* Prevent zoom on iOS when focusing inputs */
+  -webkit-appearance: none; /* Remove default styling */
+  appearance: none; /* Remove default styling */
+  transform: translateZ(0); /* Force hardware acceleration */
+}
+
+/* More aggressive zoom prevention */
+input:focus, textarea:focus, select:focus {
+  font-size: 16px !important;
+  zoom: 1 !important;
+  -webkit-text-size-adjust: 100% !important;
+}
+
+/* Disable context menu and drag */
+img, a, button, div, span {
+  -webkit-touch-callout: none;
+  -webkit-user-drag: none;
+  -khtml-user-drag: none;
+  -moz-user-drag: none;
+  -o-user-drag: none;
+  user-drag: none;
+}
+
+/* Disable image drag and save */
+img {
+  pointer-events: none;
+  -webkit-user-drag: none;
+  user-drag: none;
+}
+
+/* Re-enable pointer events for interactive elements */
+button, input, textarea, select, a[href] {
+  pointer-events: auto;
+}
+
+/* Allow text selection on content elements */
+p, h1, h2, h3, h4, h5, h6, span, div[class*="content"] {
+  -webkit-user-select: text;
+  -moz-user-select: text;
+  -ms-user-select: text;
+  user-select: text;
+}
+
+/* Hide scrollbars globally */
 
 :root {
   /* Modern Design System Colors */
