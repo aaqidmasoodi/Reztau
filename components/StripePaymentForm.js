@@ -38,7 +38,10 @@ const StripePaymentForm = ({ orderData, onSuccess, onError, onCancel }) => {
       
       // Create payment element with minimal configuration
       const paymentElementInstance = elementsInstance.create('payment', {
-        layout: 'tabs'
+        layout: 'tabs',
+        fields: {
+          billingDetails: 'never'
+        }
       });
       
       setStripe(stripeInstance);
@@ -151,7 +154,8 @@ const StripePaymentForm = ({ orderData, onSuccess, onError, onCancel }) => {
       alignItems: 'center',
       justifyContent: 'center',
       zIndex: 10000,
-      padding: '1rem'
+      padding: '1rem',
+      overflowY: 'auto'
     }
   }, [
     React.createElement('div', {
@@ -162,7 +166,10 @@ const StripePaymentForm = ({ orderData, onSuccess, onError, onCancel }) => {
         padding: '2rem',
         maxWidth: '400px',
         width: '100%',
-        boxShadow: '0 20px 40px rgba(0,0,0,0.3)'
+        maxHeight: '90vh',
+        overflowY: 'auto',
+        boxShadow: '0 20px 40px rgba(0,0,0,0.3)',
+        margin: 'auto'
       }
     }, [
       // Header

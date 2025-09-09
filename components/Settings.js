@@ -20,21 +20,13 @@ const Settings = ({ onBack, currentUser }) => {
   
   const getAppVersion = async () => {
     try {
-      if ('serviceWorker' in navigator && navigator.serviceWorker.controller) {
-        const caches = await window.caches.keys();
-        const reztauCache = caches.find(cache => cache.startsWith('reztau-v'));
-        if (reztauCache) {
-          const version = reztauCache.replace('reztau-v', '');
-          setAppVersion(version);
-        } else {
-          setAppVersion('1.0.1');
-        }
-      } else {
-        setAppVersion('1.0.1');
-      }
+      // Get version from package.json
+      const response = await fetch('package.json');
+      const packageData = await response.json();
+      setAppVersion(packageData.version);
     } catch (error) {
       console.error('Error getting app version:', error);
-      setAppVersion('1.0.1');
+      setAppVersion('1.4.0'); // Fallback to current version
     }
   };
   
