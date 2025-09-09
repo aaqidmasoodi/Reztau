@@ -29,6 +29,7 @@ Beef Quater Pounder -> euro 4.70
 Beef Half Pounder -> euro 5.90
       add cheese cents 20
 Chicken Burger -> euro 4.70
+----Chips
 Nugger /Chips (5) -> euro 5.90
 Nugger /Chips (9) -> euro 9.80
 Chips -> euro 2.90
@@ -36,3 +37,80 @@ Garlic Chios -> euro 3.90
 garlic / chilli chips -> euro 4.00
 Cheese / Garlic Chips -> euro 4.70
 cheese / Chips -> euro 4.50
+----Vegetarian/Vegan Mains
+Chana Masala -> euro 10.00
+Daal Tarka -> euro 11.50
+Vegetable Masala -> euro 11.00
+Vegeratble Jalfrezi -> euro 12.50
+Bombay aloo -> euro 11.00
+Saag Aloo -> euro 11.50
+Vegetable Biryani -> euro 12.50
+Saag Paneer -> euro 12.50
+Paneer Karahi -> euro 12.00
+Baigan ka bhartta -> euro 12.50
+Paneer Biryani -> euro 13.50
+----Chicken Mains
+Chicken Tandoori Special -> euro 10.00
+Chicken Masala -> euro 12.50
+Chicken Karaki -> euro 13.50
+Butter Chicken -> euro 13.50
+Chicken Jalfrezi -> euro 13.50
+Saag Chicken -> euro 14.00
+chilli garlic chicken -> euro 14.00
+chicken balti -> euro 13.50
+chara chicken -> euro 13.50
+grilled half chciken -> euro 15.00
+----chicken Biryani
+Chicken Biryani -> euro 13.50
+Chicken hyderababi Biryani -> euro 14.00
+Chicken sindhi biryani -> euro 14.00
+Chicken karachi Biryani -> euro 14.00
+Chicken Tikka Biryani -> euro 15.00
+---- Lamb Mains
+Lamb Masala -> euro 14.50
+Rogan Gosht -> euro 14.50
+Lamb Jalfrezi -> eruo 15.00
+Chilli Garlic Lamb -> euro 15.00
+Lamb Nihari -> euro 15.00
+Lamb Haleem -> euro 14.50
+Lamb Karaki -> euro 15.00
+Lamb Kofta -> euro 14.50
+Saag Gosht -> euro 15.50
+--- Lamb Biryani 
+Lamb Biryani -> euro 15.00
+Lamb Hyderabadi -> euro 15.50
+Lamb Karachi Biryani -> euro 15.50
+Lamb Sindhi Biryani -> euro 15.50
+Mixed Biryani ---> euro 15.50
+---- Coffee
+Espresso -> euro 2.80
+Africano -> euro 3.20
+Cappuccino -> euro 3.20
+Latte -> euro 3.20
+flavouraed latte -> euro 3.50
+FLat White -> euro 3.30
+cortado -> euro 3.20
+Mocha -> euro 4.00
+chai coffee -> euro 4.30
+Dubai Style Latte -> 3.90 
+Oat Milk available --> 50 centes avaible avaiable for all coffee
+--- Tea and Hot Choco
+Karak Chai (Small) -> euro 3.50
+Karak Chai (Medium) -> euro 3.70
+Tea -> euro 2.50
+Herbal Tea -> euro 3.00
+Hot Chocolate -> euro 3.30
+chai latte -> 3.60
+Dubai style Hot Chocolate -> euro 3.90
+Special Hot Chocolate with Vanilla -> euro 4.00
+---- Cold Drinks
+Mango Lassi (Special) -> euro 3.00
+Iced Afficano -> euro 4.10
+Ice Caramel latte -> euro 4.20
+Iced Vanilla latte -> euro 4.20
+Iced Hazelnut Latte -> euro 4.20
+Ided Dubai Style -> euro 4.50
+--- Special 
+Veggie SOup & Naan --> euro 6.50
+
+
