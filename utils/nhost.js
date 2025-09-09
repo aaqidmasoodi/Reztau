@@ -1,5 +1,10 @@
 const NhostManager = {
   config: null,
+  logoutCallback: null,
+  
+  setLogoutCallback(callback) {
+    this.logoutCallback = callback;
+  },
   client: null,
   
   async init() {
@@ -196,8 +201,9 @@ const NhostManager = {
       if (error.message && error.message.includes('JWTExpired')) {
         console.log('JWT expired, signing out user');
         await this.signOut();
-        // Optionally redirect to login or refresh the page
-        window.location.reload();
+        if (this.logoutCallback) {
+          this.logoutCallback();
+        }
       }
       
       throw error;

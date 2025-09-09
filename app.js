@@ -58,6 +58,13 @@ const App = () => {
           console.log('❌ Nhost connection failed');
         }
         
+        // Set logout callback for JWT expiration handling
+        NhostManager.setLogoutCallback(() => {
+          setIsAuthenticated(false);
+          setCurrentUser(null);
+          setActiveTab('menu');
+        });
+        
         // Initialize auth with Nhost
         const authenticated = NhostManager.isAuthenticated();
         setIsAuthenticated(authenticated);
@@ -150,6 +157,23 @@ const App = () => {
     setCurrentUser(null);
     setActiveTab('menu');
   };
+  
+  // JWT expiration monitoring
+  useEffect(() => {
+    if (!isAuthenticated) return;
+    
+    const checkJWTExpiration = () => {
+      if (!NhostManager.isAuthenticated()) {
+        console.log('JWT expired, logging out user');
+        handleLogout();
+      }
+    };
+    
+    // Check every 30 seconds
+    const interval = setInterval(checkJWTExpiration, 30000);
+    
+    return () => clearInterval(interval);
+  }, [isAuthenticated]);
   
   const handleCartClick = () => {
     // Close all overlays first

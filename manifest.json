@@ -1,7 +1,7 @@
 {
   "name": "Reztau",
   "short_name": "Reztau",
-  "version": "1.6.6",
+  "version": "1.6.7",
   "description": "Restaurant ordering app",
   "start_url": "/",
   "display": "standalone",

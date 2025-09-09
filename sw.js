@@ -1,4 +1,4 @@
-const CACHE_NAME = 'reztau-v1.6.6';
+const CACHE_NAME = 'reztau-v1.6.7';
 
 // Listen for skip waiting message
 self.addEventListener('message', (event) => {
