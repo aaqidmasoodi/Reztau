@@ -39,7 +39,7 @@ const MenuItem = ({ item, onAddToCart, onItemClick, onToggleFavorite }) => {
     onClick: onItemClick ? () => onItemClick(item) : undefined,
     style: {
       position: 'relative',
-      height: '280px',
+      height: '200px',
       backgroundImage: `url(${item.image})`,
       backgroundSize: 'cover',
       backgroundPosition: 'center',
@@ -55,7 +55,7 @@ const MenuItem = ({ item, onAddToCart, onItemClick, onToggleFavorite }) => {
         left: 0,
         right: 0,
         bottom: 0,
-        background: 'linear-gradient(to right, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.3) 60%, rgba(0,0,0,0.1) 100%)'
+        background: 'linear-gradient(to right, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.4) 60%, rgba(0,0,0,0.2) 100%)'
       }
     }),
     
@@ -66,8 +66,8 @@ const MenuItem = ({ item, onAddToCart, onItemClick, onToggleFavorite }) => {
       onClick: handleToggleFavorite,
       style: {
         position: 'absolute',
-        top: '0.75rem',
-        right: '0.75rem',
+        top: '0.5rem',
+        right: '0.5rem',
         background: 'rgba(255,255,255,0.9)',
         backdropFilter: 'blur(4px)',
         zIndex: 2
@@ -75,7 +75,7 @@ const MenuItem = ({ item, onAddToCart, onItemClick, onToggleFavorite }) => {
     }, React.createElement('i', {
       className: `fas fa-heart`,
       style: { 
-        color: isFavorite ? 'hsl(var(--destructive))' : 'hsl(var(--muted-foreground))'
+        color: isFavorite ? '#ef4444' : '#6b7280'
       }
     })),
     
@@ -87,8 +87,8 @@ const MenuItem = ({ item, onAddToCart, onItemClick, onToggleFavorite }) => {
         bottom: 0,
         left: 0,
         right: 0,
-        padding: '1rem',
-        color: 'white',
+        padding: '0.75rem',
+        color: '#ffffff',
         zIndex: 1
       }
     }, [
@@ -98,23 +98,23 @@ const MenuItem = ({ item, onAddToCart, onItemClick, onToggleFavorite }) => {
           display: 'flex',
           justifyContent: 'space-between',
           alignItems: 'flex-start',
-          marginBottom: '0.5rem'
+          marginBottom: '0.25rem'
         }
       }, [
         React.createElement('h3', {
           key: 'name',
           style: {
-            fontSize: '1.125rem',
+            fontSize: '1rem',
             fontWeight: '600',
-            marginBottom: '0.25rem'
+            color: '#ffffff'
           }
         }, item.name),
         React.createElement('span', {
           key: 'price',
           style: {
-            fontSize: '1.25rem',
+            fontSize: '1.125rem',
             fontWeight: '700',
-            color: '#4ade80'
+            color: '#ffffff'
           }
         }, `€${item.price.toFixed(2)}`)
       ]),
@@ -122,34 +122,13 @@ const MenuItem = ({ item, onAddToCart, onItemClick, onToggleFavorite }) => {
       React.createElement('p', {
         key: 'description',
         style: {
-          fontSize: '0.875rem',
+          fontSize: '0.8rem',
+          color: '#ffffff',
           opacity: 0.9,
-          marginBottom: '0.75rem',
-          lineHeight: '1.4'
+          marginBottom: '0.5rem',
+          lineHeight: '1.3'
         }
       }, item.description),
-      
-      item.dietary && item.dietary.length > 0 && React.createElement('div', {
-        key: 'dietary',
-        style: {
-          display: 'flex',
-          gap: '0.25rem',
-          marginBottom: '0.75rem',
-          flexWrap: 'wrap'
-        }
-      }, item.dietary.map(diet => 
-        React.createElement('span', {
-          key: diet,
-          style: {
-            background: 'rgba(255,255,255,0.2)',
-            color: 'white',
-            padding: '0.125rem 0.5rem',
-            borderRadius: '9999px',
-            fontSize: '0.7rem',
-            fontWeight: '500'
-          }
-        }, diet)
-      )),
       
       React.createElement('div', {
         key: 'actions',
@@ -157,7 +136,7 @@ const MenuItem = ({ item, onAddToCart, onItemClick, onToggleFavorite }) => {
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'space-between',
-          gap: '0.75rem'
+          gap: '0.5rem'
         }
       }, [
         React.createElement('div', {
@@ -165,7 +144,7 @@ const MenuItem = ({ item, onAddToCart, onItemClick, onToggleFavorite }) => {
           style: {
             display: 'flex',
             alignItems: 'center',
-            gap: '0.5rem'
+            gap: '0.375rem'
           }
         }, [
           React.createElement('button', {
@@ -176,28 +155,28 @@ const MenuItem = ({ item, onAddToCart, onItemClick, onToggleFavorite }) => {
             },
             disabled: quantity === 1,
             style: {
-              width: '2rem',
-              height: '2rem',
+              width: '1.75rem',
+              height: '1.75rem',
               borderRadius: '50%',
-              border: '1px solid rgba(255,255,255,0.3)',
+              border: '1px solid rgba(255,255,255,0.4)',
               background: 'rgba(255,255,255,0.2)',
-              color: 'white',
+              color: '#ffffff',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
               cursor: 'pointer',
-              fontSize: '0.875rem',
-              fontWeight: '600'
+              fontSize: '0.75rem'
             }
           }, React.createElement('i', { className: 'fas fa-minus' })),
           
           React.createElement('span', {
             key: 'display',
             style: {
-              minWidth: '2rem',
+              minWidth: '1.5rem',
               textAlign: 'center',
               fontWeight: '600',
-              color: 'white'
+              color: '#ffffff',
+              fontSize: '0.875rem'
             }
           }, quantity),
           
@@ -209,18 +188,17 @@ const MenuItem = ({ item, onAddToCart, onItemClick, onToggleFavorite }) => {
             },
             disabled: !item.available,
             style: {
-              width: '2rem',
-              height: '2rem',
+              width: '1.75rem',
+              height: '1.75rem',
               borderRadius: '50%',
-              border: '1px solid rgba(255,255,255,0.3)',
+              border: '1px solid rgba(255,255,255,0.4)',
               background: 'rgba(255,255,255,0.2)',
-              color: 'white',
+              color: '#ffffff',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
               cursor: 'pointer',
-              fontSize: '0.875rem',
-              fontWeight: '600'
+              fontSize: '0.75rem'
             }
           }, React.createElement('i', { className: 'fas fa-plus' }))
         ]),
@@ -234,18 +212,18 @@ const MenuItem = ({ item, onAddToCart, onItemClick, onToggleFavorite }) => {
           disabled: !item.available || isAdding,
           style: {
             flex: 1,
-            padding: '0.5rem 1rem',
-            background: item.available ? '#4ade80' : 'rgba(255,255,255,0.3)',
-            color: item.available ? 'black' : 'white',
+            padding: '0.375rem 0.75rem',
+            background: item.available ? '#ffffff' : 'rgba(255,255,255,0.3)',
+            color: item.available ? '#000000' : '#ffffff',
             border: 'none',
-            borderRadius: '0.5rem',
-            fontSize: '0.875rem',
+            borderRadius: '0.375rem',
+            fontSize: '0.8rem',
             fontWeight: '600',
             cursor: item.available ? 'pointer' : 'not-allowed',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            gap: '0.5rem'
+            gap: '0.375rem'
           }
         }, [
           React.createElement('i', { 
@@ -254,7 +232,7 @@ const MenuItem = ({ item, onAddToCart, onItemClick, onToggleFavorite }) => {
           }),
           React.createElement('span', {
             key: 'text'
-          }, isAdding ? 'Adding...' : 'Add to Cart')
+          }, isAdding ? 'Adding...' : 'Add')
         ])
       ])
     ]),
