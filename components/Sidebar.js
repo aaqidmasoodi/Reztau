@@ -383,7 +383,7 @@ const Sidebar = ({ isOpen, onClose, onLogout, onShowSettings, onShowOrderHistory
             color: 'var(--text-secondary)',
             paddingBottom: '1rem'
           }
-        }, 'Version 1.6.2')
+        }, 'Version 1.6.3')
       ])
     ]),
     

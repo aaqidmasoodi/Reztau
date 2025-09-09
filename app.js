@@ -154,6 +154,7 @@ const App = () => {
     setShowSettings(false);
     setShowOrderHistory(false);
     setShowAbout(false);
+    setShowDeveloperInfo(false);
     setShowItemDetail(false);
     setShowCheckout(false);
     setShowSidebar(false);
@@ -167,6 +168,7 @@ const App = () => {
     setShowSettings(false);
     setShowOrderHistory(false);
     setShowAbout(false);
+    setShowDeveloperInfo(false);
     setShowItemDetail(false);
     setShowCheckout(false);
     setShowSidebar(false);
@@ -902,8 +904,7 @@ const App = () => {
       }),
       
       showDeveloperInfo && React.createElement(DeveloperInfo, {
-        key: 'developer-info',
-        onBack: () => setShowDeveloperInfo(false)
+        key: 'developer-info'
       }),
       
       showItemDetail && React.createElement('div', {

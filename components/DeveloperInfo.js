@@ -1,4 +1,4 @@
-const DeveloperInfo = ({ onBack }) => {
+const DeveloperInfo = () => {
   return React.createElement('div', {
     style: {
       position: 'fixed',
@@ -16,85 +16,6 @@ const DeveloperInfo = ({ onBack }) => {
       animation: 'slideInFromRight 0.3s ease-out'
     }
   }, [
-    // Header
-    React.createElement('div', {
-      key: 'header',
-      style: {
-        position: 'fixed',
-        top: 0,
-        left: 0,
-        right: 0,
-        height: '70px',
-        background: 'hsl(var(--background))',
-        borderBottom: '1px solid hsl(var(--border))',
-        display: 'flex',
-        alignItems: 'center',
-        padding: '0 1rem',
-        zIndex: 1001,
-        paddingTop: 'env(safe-area-inset-top)'
-      }
-    }, [
-      React.createElement('button', {
-        key: 'back',
-        onClick: (e) => {
-          e.preventDefault();
-          e.stopPropagation();
-          // Add slide-out animation
-          const overlayElement = e.target.closest('[style*="slideInFromRight"]');
-          if (overlayElement) {
-            overlayElement.style.animation = 'slideOutToRight 0.3s ease-in';
-            overlayElement.style.transform = 'translateX(100%)';
-            setTimeout(() => {
-              onBack();
-            }, 300);
-          } else {
-            onBack();
-          }
-        },
-        style: {
-          background: 'none',
-          border: 'none',
-          fontSize: '1.25rem',
-          cursor: 'pointer',
-          color: 'hsl(var(--primary))',
-          padding: '0.5rem',
-          marginRight: '1rem',
-          borderRadius: '8px',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          minWidth: '40px',
-          minHeight: '40px',
-          transition: 'background-color 0.2s'
-        },
-        onMouseEnter: (e) => {
-          e.target.style.backgroundColor = 'hsl(var(--muted))';
-        },
-        onMouseLeave: (e) => {
-          e.target.style.backgroundColor = 'transparent';
-        }
-      }, React.createElement('i', { className: 'fas fa-arrow-left' })),
-      React.createElement('h1', {
-        key: 'title',
-        style: {
-          fontSize: '1.25rem',
-          fontWeight: '600',
-          color: 'hsl(var(--foreground))',
-          margin: 0,
-          display: 'flex',
-          alignItems: 'center',
-          gap: '0.5rem'
-        }
-      }, [
-        React.createElement('i', {
-          key: 'icon',
-          className: 'fas fa-code',
-          style: { color: 'hsl(var(--primary))' }
-        }),
-        'Developer Info'
-      ])
-    ]),
-    
     // Content
     React.createElement('div', {
       key: 'content',
