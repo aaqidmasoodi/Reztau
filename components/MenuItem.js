@@ -51,8 +51,9 @@ const MenuItem = ({ item, onAddToCart, onItemClick, onToggleFavorite }) => {
         alt: item.name,
         style: {
           width: '100%',
-          height: '160px',
-          objectFit: 'cover'
+          height: '200px',
+          objectFit: 'cover',
+          aspectRatio: '1'
         },
         onError: (e) => {
           e.target.src = 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=400&h=300&fit=crop';
