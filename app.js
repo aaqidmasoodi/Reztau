@@ -17,6 +17,8 @@ const App = () => {
   const [showOrderHistory, setShowOrderHistory] = useState(false);
   const [showAbout, setShowAbout] = useState(false);
   const [showDeveloperInfo, setShowDeveloperInfo] = useState(false);
+  const [showPrivacyPolicy, setShowPrivacyPolicy] = useState(false);
+  const [showTermsConditions, setShowTermsConditions] = useState(false);
   const [showCheckout, setShowCheckout] = useState(false);
   const [isProfileEditing, setIsProfileEditing] = useState(false);
   const [overlayPage, setOverlayPage] = useState(null);
@@ -155,6 +157,8 @@ const App = () => {
     setShowOrderHistory(false);
     setShowAbout(false);
     setShowDeveloperInfo(false);
+    setShowPrivacyPolicy(false);
+    setShowTermsConditions(false);
     setShowItemDetail(false);
     setShowCheckout(false);
     setShowSidebar(false);
@@ -169,6 +173,8 @@ const App = () => {
     setShowOrderHistory(false);
     setShowAbout(false);
     setShowDeveloperInfo(false);
+    setShowPrivacyPolicy(false);
+    setShowTermsConditions(false);
     setShowItemDetail(false);
     setShowCheckout(false);
     setShowSidebar(false);
@@ -212,6 +218,14 @@ const App = () => {
           setShowDeveloperInfo(false);
           setOverlayPage(null);
         }
+        else if (showPrivacyPolicy) {
+          setShowPrivacyPolicy(false);
+          setOverlayPage(null);
+        }
+        else if (showTermsConditions) {
+          setShowTermsConditions(false);
+          setOverlayPage(null);
+        }
         else if (showItemDetail) handleCloseItemDetail();
         else if (showCheckout) handleCloseCheckout();
       }, 300);
@@ -225,6 +239,14 @@ const App = () => {
       }
       else if (showDeveloperInfo) {
         setShowDeveloperInfo(false);
+        setOverlayPage(null);
+      }
+      else if (showPrivacyPolicy) {
+        setShowPrivacyPolicy(false);
+        setOverlayPage(null);
+      }
+      else if (showTermsConditions) {
+        setShowTermsConditions(false);
         setOverlayPage(null);
       }
       else if (showItemDetail) handleCloseItemDetail();
@@ -289,12 +311,44 @@ const App = () => {
     setShowSettings(false);
     setShowOrderHistory(false);
     setShowAbout(false);
+    setShowPrivacyPolicy(false);
+    setShowTermsConditions(false);
     setShowItemDetail(false);
     setShowCheckout(false);
     
     setShowDeveloperInfo(true);
     setShowSidebar(false);
     setOverlayPage('Developer Info');
+  };
+  
+  const handleShowPrivacyPolicy = () => {
+    // Close other overlays first
+    setShowSettings(false);
+    setShowOrderHistory(false);
+    setShowAbout(false);
+    setShowDeveloperInfo(false);
+    setShowTermsConditions(false);
+    setShowItemDetail(false);
+    setShowCheckout(false);
+    
+    setShowPrivacyPolicy(true);
+    setShowSidebar(false);
+    setOverlayPage('Privacy Policy');
+  };
+  
+  const handleShowTermsConditions = () => {
+    // Close other overlays first
+    setShowSettings(false);
+    setShowOrderHistory(false);
+    setShowAbout(false);
+    setShowDeveloperInfo(false);
+    setShowPrivacyPolicy(false);
+    setShowItemDetail(false);
+    setShowCheckout(false);
+    
+    setShowTermsConditions(true);
+    setShowSidebar(false);
+    setOverlayPage('Terms & Conditions');
   };
   
   const handleCloseOrderHistory = () => {
@@ -889,6 +943,8 @@ const App = () => {
         onShowOrderHistory: handleShowOrderHistory,
         onShowAbout: handleShowAbout,
         onShowDeveloperInfo: handleShowDeveloperInfo,
+        onShowPrivacyPolicy: handleShowPrivacyPolicy,
+        onShowTermsConditions: handleShowTermsConditions,
         currentUser: currentUser
       }),
       
@@ -905,6 +961,14 @@ const App = () => {
       
       showDeveloperInfo && React.createElement(DeveloperInfo, {
         key: 'developer-info'
+      }),
+      
+      showPrivacyPolicy && React.createElement(PrivacyPolicy, {
+        key: 'privacy-policy'
+      }),
+      
+      showTermsConditions && React.createElement(TermsConditions, {
+        key: 'terms-conditions'
       }),
       
       showItemDetail && React.createElement('div', {

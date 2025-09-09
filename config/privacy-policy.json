@@ -1,0 +1,31 @@
+{
+  "title": "Privacy Policy",
+  "lastUpdated": "September 9, 2025",
+  "restaurant": "Alkhair Restaurant",
+  "sections": [
+    {
+      "title": "Information We Collect",
+      "content": "We collect information you provide when placing orders, including your name, phone number, email address, and delivery address. We also collect payment information processed securely through Stripe."
+    },
+    {
+      "title": "How We Use Your Information",
+      "content": "We use your information to process and fulfill your orders, communicate with you about your orders, improve our services, and send you promotional offers (with your consent)."
+    },
+    {
+      "title": "Information Sharing",
+      "content": "We do not sell, trade, or rent your personal information to third parties. We may share information with service providers who help us operate our business, such as payment processors and delivery services."
+    },
+    {
+      "title": "Data Security",
+      "content": "We implement appropriate security measures to protect your personal information. Payment information is processed securely through Stripe and we do not store credit card details on our servers."
+    },
+    {
+      "title": "Your Rights",
+      "content": "You have the right to access, update, or delete your personal information. You can also opt out of promotional communications at any time by contacting us."
+    },
+    {
+      "title": "Contact Us",
+      "content": "If you have any questions about this Privacy Policy, please contact us at privacy@alkhairrestaurant.com or call us at +353 1 234 5678."
+    }
+  ]
+}

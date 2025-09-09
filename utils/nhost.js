@@ -191,6 +191,15 @@ const NhostManager = {
       return data.data;
     } catch (error) {
       console.error('GraphQL request failed:', error);
+      
+      // Handle JWT expiration
+      if (error.message && error.message.includes('JWTExpired')) {
+        console.log('JWT expired, signing out user');
+        await this.signOut();
+        // Optionally redirect to login or refresh the page
+        window.location.reload();
+      }
+      
       throw error;
     }
   },

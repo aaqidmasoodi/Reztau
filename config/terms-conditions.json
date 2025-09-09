@@ -1,0 +1,35 @@
+{
+  "title": "Terms & Conditions",
+  "lastUpdated": "September 9, 2025",
+  "restaurant": "Alkhair Restaurant",
+  "sections": [
+    {
+      "title": "Order Acceptance",
+      "content": "All orders are subject to acceptance by Alkhair Restaurant. We reserve the right to refuse or cancel any order at our discretion. Order confirmation will be sent via SMS or email."
+    },
+    {
+      "title": "Payment Terms",
+      "content": "Payment is required at the time of ordering. We accept major credit cards, debit cards, and digital payments through Stripe. All prices are in Euros and include applicable taxes."
+    },
+    {
+      "title": "Delivery & Collection",
+      "content": "Delivery times are estimates and may vary based on demand and weather conditions. Collection orders must be picked up within 30 minutes of the scheduled time. We are not responsible for delays beyond our control."
+    },
+    {
+      "title": "Food Safety & Allergies",
+      "content": "Please inform us of any food allergies or dietary requirements when placing your order. While we take precautions, we cannot guarantee that our food is free from allergens due to shared kitchen facilities."
+    },
+    {
+      "title": "Cancellation Policy",
+      "content": "Orders can be cancelled within 5 minutes of placement. After this time, cancellations may not be possible if preparation has begun. Refunds will be processed within 3-5 business days."
+    },
+    {
+      "title": "Liability",
+      "content": "Alkhair Restaurant's liability is limited to the value of your order. We are not responsible for any indirect or consequential damages arising from the use of our services."
+    },
+    {
+      "title": "Contact Information",
+      "content": "For questions about these terms, please contact us at info@alkhairrestaurant.com or call +353 1 234 5678. Our address is 123 Main Street, Dublin, Ireland."
+    }
+  ]
+}

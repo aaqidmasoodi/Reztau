@@ -223,10 +223,10 @@ const OrderHistory = ({ onBack }) => {
             }
           }, [
             React.createElement('div', {
-              key: 'info'
+              key: `info-${order.id}`
             }, [
               React.createElement('div', {
-                key: 'date',
+                key: `date-${order.id}`,
                 style: {
                   fontSize: '0.85rem',
                   color: 'var(--text-secondary)',
@@ -234,7 +234,7 @@ const OrderHistory = ({ onBack }) => {
                 }
               }, formatDate(order.created_at)),
               React.createElement('div', {
-                key: 'id',
+                key: `id-${order.id}`,
                 style: {
                   fontSize: '0.8rem',
                   color: 'var(--text-secondary)',
@@ -243,11 +243,11 @@ const OrderHistory = ({ onBack }) => {
               }, `Order #${order.id.slice(-8)}`)
             ]),
             React.createElement('div', {
-              key: 'status-total',
+              key: `status-total-${order.id}`,
               style: { textAlign: 'right' }
             }, [
               React.createElement('div', {
-                key: 'status',
+                key: `status-${order.id}`,
                 style: {
                   display: 'inline-block',
                   padding: '0.25rem 0.75rem',

@@ -1,4 +1,4 @@
-const Sidebar = ({ isOpen, onClose, onLogout, onShowSettings, onShowOrderHistory, onShowAbout = () => {}, onShowDeveloperInfo = () => {}, currentUser }) => {
+const Sidebar = ({ isOpen, onClose, onLogout, onShowSettings, onShowOrderHistory, onShowAbout = () => {}, onShowDeveloperInfo = () => {}, onShowPrivacyPolicy = () => {}, onShowTermsConditions = () => {}, currentUser }) => {
   const handleNavigation = (page) => {
     if (page === 'settings') {
       onShowSettings();
@@ -8,6 +8,10 @@ const Sidebar = ({ isOpen, onClose, onLogout, onShowSettings, onShowOrderHistory
       onShowAbout();
     } else if (page === 'developer') {
       onShowDeveloperInfo();
+    } else if (page === 'privacy-policy') {
+      onShowPrivacyPolicy();
+    } else if (page === 'terms-conditions') {
+      onShowTermsConditions();
     } else {
       // Handle other pages later
       onClose();
@@ -247,11 +251,12 @@ const Sidebar = ({ isOpen, onClose, onLogout, onShowSettings, onShowOrderHistory
           ])
         ]),
         
+        // Legal Section
         React.createElement('div', {
           key: 'legal-section',
           style: { marginBottom: '1.5rem' }
         }, [
-          React.createElement('h3', {
+          React.createElement('div', {
             key: 'legal-title',
             style: {
               fontSize: '0.8rem',
@@ -264,35 +269,59 @@ const Sidebar = ({ isOpen, onClose, onLogout, onShowSettings, onShowOrderHistory
             }
           }, 'Legal'),
           
-          ['Privacy Policy', 'Terms & Conditions'].map(item =>
-            React.createElement('button', {
-              key: item.toLowerCase().replace(/\s+/g, '-'),
-              onClick: () => handleNavigation(item.toLowerCase().replace(/\s+/g, '-')),
-              style: {
-                width: '100%',
-                padding: '0.75rem 1.5rem',
-                background: 'transparent',
-                border: 'none',
-                textAlign: 'left',
-                color: 'var(--text-primary)',
-                fontSize: '0.95rem',
-                cursor: 'pointer',
-                display: 'flex',
-                alignItems: 'center',
-                gap: '0.75rem',
-                transition: 'background-color 0.2s'
-              }
-            }, [
-              React.createElement('i', { 
-                key: 'icon',
-                className: item === 'Privacy Policy' ? 'fas fa-shield-alt' : 'fas fa-file-contract',
-                style: { color: 'var(--primary-color)', width: '16px' }
-              }),
-              item
-            ])
-          )
+          React.createElement('button', {
+            key: 'privacy-policy',
+            onClick: () => handleNavigation('privacy-policy'),
+            style: {
+              width: '100%',
+              padding: '0.75rem 1.5rem',
+              background: 'transparent',
+              border: 'none',
+              textAlign: 'left',
+              color: 'var(--text-primary)',
+              fontSize: '0.95rem',
+              cursor: 'pointer',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '0.75rem',
+              transition: 'background-color 0.2s'
+            }
+          }, [
+            React.createElement('i', { 
+              key: 'icon',
+              className: 'fas fa-shield-alt',
+              style: { color: 'var(--primary-color)', width: '16px' }
+            }),
+            'Privacy Policy'
+          ]),
+          
+          React.createElement('button', {
+            key: 'terms-conditions',
+            onClick: () => handleNavigation('terms-conditions'),
+            style: {
+              width: '100%',
+              padding: '0.75rem 1.5rem',
+              background: 'transparent',
+              border: 'none',
+              textAlign: 'left',
+              color: 'var(--text-primary)',
+              fontSize: '0.95rem',
+              cursor: 'pointer',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '0.75rem',
+              transition: 'background-color 0.2s'
+            }
+          }, [
+            React.createElement('i', { 
+              key: 'icon',
+              className: 'fas fa-file-contract',
+              style: { color: 'var(--primary-color)', width: '16px' }
+            }),
+            'Terms & Conditions'
+          ])
         ]),
-        
+
         React.createElement('div', {
           key: 'info-section'
         }, [
@@ -383,7 +412,7 @@ const Sidebar = ({ isOpen, onClose, onLogout, onShowSettings, onShowOrderHistory
             color: 'var(--text-secondary)',
             paddingBottom: '1rem'
           }
-        }, 'Version 1.6.3')
+        }, 'Version 1.6.4')
       ])
     ]),
     
