@@ -74,6 +74,64 @@ p, h1, h2, h3, h4, h5, h6, span, div[class*="content"] {
   user-select: text;
 }
 
+/* DEMO Banner */
+.demo-banner {
+  position: fixed;
+  top: 50%;
+  left: -10%;
+  right: -10%;
+  transform: translateY(-50%) rotate(-15deg);
+  z-index: 9999;
+  pointer-events: none;
+  background: rgba(255, 0, 0, 0.1);
+  backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(2px);
+  border: 2px solid rgba(255, 0, 0, 0.3);
+  text-align: center;
+  padding: 2rem 0;
+  user-select: none;
+  animation: demoPulse 3s ease-in-out infinite;
+}
+
+.demo-banner .demo-title {
+  font-size: 4rem;
+  font-weight: 900;
+  color: rgba(255, 100, 100, 0.7);
+  text-shadow: 0 0 20px rgba(255, 0, 0, 0.5);
+  letter-spacing: 2rem;
+  margin: 0;
+  line-height: 1;
+}
+
+.demo-banner .demo-credit {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: rgba(255, 120, 120, 0.6);
+  margin-top: 0.5rem;
+  letter-spacing: 0.1rem;
+  text-shadow: none;
+}
+
+@keyframes demoPulse {
+  0%, 100% { opacity: 0.6; }
+  50% { opacity: 0.8; }
+}
+
+@media (max-width: 768px) {
+  .demo-banner {
+    padding: 1.5rem 0;
+  }
+  
+  .demo-banner .demo-title {
+    font-size: 2.5rem;
+    letter-spacing: 1rem;
+  }
+  
+  .demo-banner .demo-credit {
+    font-size: 0.8rem;
+  }
+}
+
 /* Hide scrollbars globally */
 
 :root {

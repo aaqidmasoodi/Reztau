@@ -856,6 +856,21 @@ const App = () => {
     React.createElement('div', {
       className: 'app'
     }, [
+      // DEMO Banner
+      React.createElement('div', {
+        key: 'demo-banner',
+        className: 'demo-banner'
+      }, [
+        React.createElement('div', {
+          key: 'demo-title',
+          className: 'demo-title'
+        }, 'DEMO'),
+        React.createElement('div', {
+          key: 'demo-credit',
+          className: 'demo-credit'
+        }, 'Designed & Developed by Aaqid Masoodi')
+      ]),
+      
       React.createElement(Header, { 
         key: 'header',
         onMenuToggle: handleMenuToggle,

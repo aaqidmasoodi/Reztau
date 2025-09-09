@@ -1,0 +1,38 @@
+---New
+cheese naam -> euro 4.40
+Cheese Zaata Naan -> euro 4.80
+cheese garlic naan -> euro 4.80
+Zaata Naan -> euro 4.80
+---Appetisers
+Veggie Samosa -> euro 1.80
+Onion Bhaji -> euro 2.00
+aloo tikki -> euro 2.00
+falafel Portion -> euro 4.30
+Pokara Portion -> euro 4.30
+Samosa Chaat -> euro 3.00
+---Wraps
+Chiken Tikka Wrap -> euro 9.50
+Lamb Wrap -> euro 11.00
+Lamb Seekh -> euro 11.00
+Chicken Seekh -> euro 9.50
+Falafel Wrap -> euro 8.00
+---Naan
+Plain Naan -> euro 2.00
+Butter Naan -> euro 2.10
+Garlic Naan -> euro 2.50
+Garlic & Coriander -> euro 3.00
+Seasame Naan -> euro 3.00
+Wholemeal Roti -> euro 2.00
+Butter Roti -> euro 2.10
+----Burgers
+Beef Quater Pounder -> euro 4.70
+Beef Half Pounder -> euro 5.90
+      add cheese cents 20
+Chicken Burger -> euro 4.70
+Nugger /Chips (5) -> euro 5.90
+Nugger /Chips (9) -> euro 9.80
+Chips -> euro 2.90
+Garlic Chios -> euro 3.90
+garlic / chilli chips -> euro 4.00
+Cheese / Garlic Chips -> euro 4.70
+cheese / Chips -> euro 4.50

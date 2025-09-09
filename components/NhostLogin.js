@@ -83,6 +83,21 @@ const NhostLogin = ({ onLogin }) => {
       paddingTop: 'env(safe-area-inset-top)'
     }
   }, [
+    // DEMO Banner
+    React.createElement('div', {
+      key: 'demo-banner',
+      className: 'demo-banner'
+    }, [
+      React.createElement('div', {
+        key: 'demo-title',
+        className: 'demo-title'
+      }, 'DEMO'),
+      React.createElement('div', {
+        key: 'demo-credit',
+        className: 'demo-credit'
+      }, 'Designed & Developed by Aaqid Masoodi')
+    ]),
+    
     // Compact header
     React.createElement('div', {
       key: 'header',
