@@ -283,9 +283,9 @@ const OrderHistory = ({ onBack }) => {
               borderTop: '1px solid var(--border-color)',
               paddingTop: '1rem'
             }
-          }, order.order_items.map(item =>
+          }, order.order_items.map((item, index) =>
             React.createElement('div', {
-              key: item.id,
+              key: item.id || `item-${order.id}-${index}`,
               style: {
                 display: 'flex',
                 alignItems: 'center',
