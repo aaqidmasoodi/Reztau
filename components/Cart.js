@@ -53,7 +53,7 @@ const Cart = ({ items, onUpdateQuantity, onRemoveItem, onCheckout }) => {
     
     React.createElement('div', {
       key: 'items',
-      style: { padding: '1rem' }
+      style: { padding: '1rem', paddingBottom: '200px' }
     }, items.map(item => 
       React.createElement('div', {
         key: item.id,
@@ -127,51 +127,6 @@ const Cart = ({ items, onUpdateQuantity, onRemoveItem, onCheckout }) => {
           ])
         ])
       ])
-    )),
-    
-    React.createElement('div', {
-      key: 'total',
-      style: { padding: '1rem' }
-    }, React.createElement('div', {
-      className: 'card'
-    }, [
-      React.createElement('div', {
-        key: 'content',
-        className: 'card-content',
-        style: { padding: '1.5rem' }
-      }, [
-        React.createElement('div', {
-          key: 'subtotal',
-          className: 'total-row'
-        }, [
-          React.createElement('span', { key: 'label' }, 'Subtotal'),
-          React.createElement('span', { key: 'value' }, `€${subtotal.toFixed(2)}`)
-        ]),
-        
-        React.createElement('div', {
-          key: 'tax',
-          className: 'total-row'
-        }, [
-          React.createElement('span', { key: 'label' }, `Tax (${((ConfigManager.app?.tax?.rate || 0.08) * 100).toFixed(0)}%)`),
-          React.createElement('span', { key: 'value' }, `€${tax.toFixed(2)}`)
-        ]),
-        
-        deliveryFee > 0 ? React.createElement('div', {
-          key: 'delivery',
-          className: 'total-row'
-        }, [
-          React.createElement('span', { key: 'label' }, 'Delivery'),
-          React.createElement('span', { key: 'value' }, `€${deliveryFee.toFixed(2)}`)
-        ]) : null,
-        
-        React.createElement('div', {
-          key: 'total',
-          className: 'total-row'
-        }, [
-          React.createElement('span', { key: 'label' }, 'Total'),
-          React.createElement('span', { key: 'value' }, `€${total.toFixed(2)}`)
-        ])
-      ])
-    ]))
+    ))
   ]);
 };

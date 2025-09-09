@@ -778,26 +778,71 @@ const App = () => {
           zIndex: 999,
           background: 'hsl(var(--background))',
           borderTop: '1px solid hsl(var(--border))',
-          padding: '1rem',
           boxShadow: '0 -4px 6px -1px rgb(0 0 0 / 0.1)'
         }
-      }, React.createElement('button', {
-        className: 'btn btn-primary btn-lg',
-        style: { width: '100%' },
-        onClick: () => {
-          const total = cartItems.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-          handleCheckout(total);
-        },
-        disabled: !navigator.onLine
+      }, React.createElement('div', {
+        className: 'card'
       }, [
-        React.createElement('i', { 
-          key: 'icon',
-          className: 'fas fa-credit-card',
-          style: { marginRight: '0.5rem' }
-        }),
-        React.createElement('span', {
-          key: 'text'
-        }, navigator.onLine ? 'Proceed to Checkout' : 'Online Required for Checkout')
+        React.createElement('div', {
+          key: 'content',
+          className: 'card-content',
+          style: { padding: '1rem' }
+        }, [
+          React.createElement('div', {
+            key: 'subtotal',
+            className: 'total-row'
+          }, [
+            React.createElement('span', { key: 'label' }, 'Subtotal'),
+            React.createElement('span', { key: 'value' }, `€${cartItems.reduce((sum, item) => sum + (item.price * item.quantity), 0).toFixed(2)}`)
+          ]),
+          
+          React.createElement('div', {
+            key: 'tax',
+            className: 'total-row'
+          }, [
+            React.createElement('span', { key: 'label' }, `Tax (${((ConfigManager.app?.tax?.rate || 0.08) * 100).toFixed(0)}%)`),
+            React.createElement('span', { key: 'value' }, `€${(cartItems.reduce((sum, item) => sum + (item.price * item.quantity), 0) * (ConfigManager.app?.tax?.rate || 0.08)).toFixed(2)}`)
+          ]),
+          
+          (ConfigManager.restaurant?.delivery?.fee || 0) > 0 ? React.createElement('div', {
+            key: 'delivery',
+            className: 'total-row'
+          }, [
+            React.createElement('span', { key: 'label' }, 'Delivery'),
+            React.createElement('span', { key: 'value' }, `€${(ConfigManager.restaurant?.delivery?.fee || 0).toFixed(2)}`)
+          ]) : null,
+          
+          React.createElement('div', {
+            key: 'total',
+            className: 'total-row'
+          }, [
+            React.createElement('span', { key: 'label' }, 'Total'),
+            React.createElement('span', { key: 'value' }, `€${(cartItems.reduce((sum, item) => sum + (item.price * item.quantity), 0) * (1 + (ConfigManager.app?.tax?.rate || 0.08)) + (ConfigManager.restaurant?.delivery?.fee || 0)).toFixed(2)}`)
+          ]),
+          
+          React.createElement('button', {
+            key: 'checkout',
+            className: 'btn btn-primary btn-lg',
+            style: { width: '100%', marginTop: '1rem' },
+            onClick: () => {
+              const subtotal = cartItems.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+              const tax = subtotal * (ConfigManager.app?.tax?.rate || 0.08);
+              const deliveryFee = ConfigManager.restaurant?.delivery?.fee || 0;
+              const total = subtotal + tax + deliveryFee;
+              handleCheckout(total);
+            },
+            disabled: !navigator.onLine
+          }, [
+            React.createElement('i', { 
+              key: 'icon',
+              className: 'fas fa-credit-card',
+              style: { marginRight: '0.5rem' }
+            }),
+            React.createElement('span', {
+              key: 'text'
+            }, navigator.onLine ? 'Proceed to Checkout' : 'Online Required for Checkout')
+          ])
+        ])
       ])),
       
       React.createElement(BottomNav, {
