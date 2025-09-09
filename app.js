@@ -772,7 +772,7 @@ const App = () => {
         key: 'sticky-checkout',
         style: {
           position: 'fixed',
-          bottom: 'calc(80px + env(safe-area-inset-bottom))',
+          bottom: 'calc(100px + env(safe-area-inset-bottom))',
           left: '1rem',
           right: '1rem',
           zIndex: 999,

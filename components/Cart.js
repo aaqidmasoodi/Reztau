@@ -40,18 +40,6 @@ const Cart = ({ items, onUpdateQuantity, onRemoveItem, onCheckout }) => {
     }
   }, [
     React.createElement('div', {
-      key: 'header',
-      style: {
-        padding: '1rem',
-        borderBottom: '1px solid hsl(var(--border))',
-        background: 'hsl(var(--card))'
-      }
-    }, React.createElement('h2', {
-      className: 'text-xl font-bold',
-      style: { textAlign: 'center' }
-    }, 'Your Order')),
-    
-    React.createElement('div', {
       key: 'items',
       style: { padding: '1rem', paddingBottom: '200px' }
     }, items.map(item => 
