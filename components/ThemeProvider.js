@@ -7,8 +7,8 @@ const ThemeProvider = ({ children }) => {
   
   useEffect(() => {
     const saved = localStorage.getItem('reztau-theme');
-    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    const shouldUseDark = saved ? saved === 'dark' : prefersDark;
+    // Default to light mode instead of system preference
+    const shouldUseDark = saved ? saved === 'dark' : false;
     
     setIsDark(shouldUseDark);
     if (ConfigManager.theme) {

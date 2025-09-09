@@ -25,6 +25,8 @@ const App = () => {
   const [checkoutError, setCheckoutError] = useState('');
   const [showOrderSuccess, setShowOrderSuccess] = useState(false);
   const [orderSuccessData, setOrderSuccessData] = useState(null);
+  const [showStripePayment, setShowStripePayment] = useState(false);
+  const [stripePaymentData, setStripePaymentData] = useState(null);
   
   // Initialize app
   // Update cart count when cart items change
@@ -854,6 +856,10 @@ const App = () => {
           onShowOrderSuccess: (orderData) => {
             setOrderSuccessData(orderData);
             setShowOrderSuccess(true);
+          },
+          onShowStripePayment: (orderData) => {
+            setStripePaymentData(orderData);
+            setShowStripePayment(true);
           }
         })
       ]),
@@ -1384,6 +1390,49 @@ const App = () => {
           })
         ])
       ]),
+      
+      // Stripe Payment Form (at main app level - highest priority)
+      showStripePayment && stripePaymentData && React.createElement(StripePaymentForm, {
+        key: 'stripe-payment',
+        orderData: stripePaymentData,
+        onSuccess: async (paymentResult) => {
+          try {
+            // Save order to database
+            const orderId = await StripeManager.saveOrderToDatabase(stripePaymentData, paymentResult.id);
+            
+            const completedOrderData = {
+              orderId: orderId,
+              total: stripePaymentData.total
+            };
+            
+            setShowStripePayment(false);
+            setStripePaymentData(null);
+            setCheckoutLoading(false);
+            
+            // Show order success
+            setOrderSuccessData(completedOrderData);
+            setShowOrderSuccess(true);
+          } catch (error) {
+            console.error('Failed to save order:', error);
+            setShowStripePayment(false);
+            setStripePaymentData(null);
+            setCheckoutLoading(false);
+            setCheckoutError('Order processing failed. Please try again.');
+          }
+        },
+        onError: (error) => {
+          console.error('Payment failed:', error);
+          setShowStripePayment(false);
+          setStripePaymentData(null);
+          setCheckoutLoading(false);
+          setCheckoutError('Payment failed. Please try again.');
+        },
+        onCancel: () => {
+          setShowStripePayment(false);
+          setStripePaymentData(null);
+          setCheckoutLoading(false);
+        }
+      }),
       
       // Order Success Animation (at main app level - highest priority)
       showOrderSuccess && orderSuccessData && React.createElement(OrderSuccess, {

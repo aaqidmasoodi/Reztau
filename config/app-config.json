@@ -1,6 +1,6 @@
 {
   "stripe": {
-    "publishableKey": "pk_test_your_stripe_publishable_key_here"
+    "publishableKey": "pk_test_51RxDxkDvkIgcsyVbvzWituCsnEOqgDwEExzQSFDOVyzaUZITG3QtuZCaiCBiOGcQZ2ldDMyGoIANMvxH33SmV73U00mnYUFJKV"
   },
   "oneSignal": {
     "appId": "your_onesignal_app_id_here"
@@ -12,11 +12,11 @@
     "pickup": true
   },
   "currency": {
-    "code": "USD",
-    "symbol": "$"
+    "code": "EUR",
+    "symbol": "€"
   },
   "tax": {
-    "rate": 0.08,
+    "rate": 0.2,
     "included": false
   }
 }

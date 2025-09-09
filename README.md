@@ -50,12 +50,50 @@ A white-label Progressive Web App for restaurants to showcase their menu and acc
 - Configure tax rates and currency
 - Set up OneSignal for notifications
 
-## Stripe Setup
+## Stripe Setup (Frontend-Only)
 
+### Test Mode Setup
 1. Create a Stripe account at https://stripe.com
-2. Get your publishable key from the Stripe Dashboard
-3. Add the key to `config/app-config.json`
-4. Orders will appear in your Stripe Dashboard with full customer and order details
+2. Go to your Stripe Dashboard → Developers → API keys
+3. Copy your **Publishable key** (starts with `pk_test_`)
+4. Add the key to `config/app-config.json`:
+   ```json
+   {
+     "stripe": {
+       "publishableKey": "pk_test_your_actual_stripe_key_here"
+     }
+   }
+   ```
+
+### How It Works
+- **Frontend-only**: Uses Stripe.js to create payment methods and validate cards
+- **No backend needed**: Perfect for static hosting (Netlify, Vercel, GitHub Pages)
+- **Test mode**: Validates real Stripe test cards and shows payment flow
+- **Demo simulation**: Simulates successful payments for demonstration
+
+### Test Cards
+Use these test card numbers in the payment form:
+- **Success**: 4242 4242 4242 4242
+- **Declined**: 4000 0000 0000 0002
+- **Requires Authentication**: 4000 0025 0000 3155
+- **Exp Date**: Any future date (e.g., 12/25)
+- **CVC**: Any 3 digits (e.g., 123)
+
+### Payment Flow
+1. Customer fills out checkout form
+2. Clicks "Place Order" → Real Stripe payment form appears
+3. Enters card details → Stripe validates the card
+4. Payment method created → Order saved to database
+5. Order tracking with live status updates
+
+### Production Note
+For real payments in production, you'll need:
+- A backend server to handle the secret key
+- Payment intent creation on your server
+- Webhook handling for payment confirmations
+
+### Demo Mode
+If no Stripe key is configured, the app runs in demo mode with simulated payments.
 
 ## Deployment
 

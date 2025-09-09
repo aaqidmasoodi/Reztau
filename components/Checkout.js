@@ -1,4 +1,4 @@
-const Checkout = ({ cartItems, onBack, onOrderComplete, onShowOrderHistory, hideBottomButton = false, checkoutTrigger = 0, onSetLoading, onSetError, onShowOrderSuccess }) => {
+const Checkout = ({ cartItems, onBack, onOrderComplete, onShowOrderHistory, hideBottomButton = false, checkoutTrigger = 0, onSetLoading, onSetError, onShowOrderSuccess, onShowStripePayment }) => {
   const [customerInfo, setCustomerInfo] = useState({
     name: '',
     email: '',
@@ -95,59 +95,24 @@ const Checkout = ({ cartItems, onBack, onOrderComplete, onShowOrderHistory, hide
       return;
     }
     
-    setLoading(true);
-    setError('');
+    // Show external Stripe payment form
+    const orderData = {
+      items: cartItems,
+      customer: customerInfo,
+      total: total,
+      type: 'delivery'
+    };
     
-    try {
-      // Process payment and save order
-      const orderData = {
-        items: cartItems,
-        customer: customerInfo,
-        total: total,
-        type: 'delivery'
-      };
-      
-      const result = await StripeManager.processPayment(orderData);
-      
-      if (result.status === 'succeeded') {
-        console.log('✅ Order completed successfully!');
-        
-        const orderData = {
-          orderId: result.orderId,
-          total: total
-        };
-        
-        // Show external OrderSuccess instead of internal one
-        if (onShowOrderSuccess) {
-          onShowOrderSuccess(orderData);
-        } else {
-          // Fallback to internal success
-          setCompletedOrder(orderData);
-          setShowSuccess(true);
-        }
-      } else {
-        throw new Error('Payment failed');
-      }
-    } catch (error) {
-      console.error('Order failed:', error);
-      const errorMsg = error.message || 'Failed to process order. Please try again.';
-      setError(errorMsg);
-      if (onSetError) onSetError(errorMsg);
-      if (onSetLoading) onSetLoading(false); // Reset loading state on error
-    } finally {
-      setLoading(false);
+    if (onShowStripePayment) {
+      onShowStripePayment(orderData);
     }
   };
   
-  console.log('Checkout render - showSuccess:', showSuccess, 'completedOrder:', completedOrder);
-  
   if (showSuccess && completedOrder) {
-    console.log('Showing OrderSuccess animation');
     return React.createElement(OrderSuccess, {
       orderId: completedOrder.orderId,
       total: completedOrder.total,
       onClose: () => {
-        console.log('OrderSuccess closing');
         setShowSuccess(false);
         onOrderComplete(); // Clear cart and close checkout
       },

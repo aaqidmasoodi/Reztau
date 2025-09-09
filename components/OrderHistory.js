@@ -5,6 +5,13 @@ const OrderHistory = ({ onBack }) => {
   
   useEffect(() => {
     loadOrders();
+    
+    // Auto-refresh every 30 seconds to show status updates
+    const interval = setInterval(() => {
+      loadOrders();
+    }, 30000);
+    
+    return () => clearInterval(interval);
   }, []);
   
   const loadOrders = async () => {
@@ -76,24 +83,40 @@ const OrderHistory = ({ onBack }) => {
     });
   };
   
-  const getStatusColor = (status) => {
-    switch (status) {
-      case 'pending': return '#f59e0b';
-      case 'preparing': return '#3b82f6';
-      case 'ready': return '#10b981';
-      case 'delivered': return '#6b7280';
-      default: return '#6b7280';
-    }
-  };
-  
   const getStatusText = (status) => {
     switch (status) {
       case 'pending': return 'Order Received';
-      case 'preparing': return 'Preparing';
+      case 'confirmed': return 'Order Confirmed';
+      case 'preparing': return 'Being Prepared';
       case 'ready': return 'Ready for Pickup';
       case 'delivered': return 'Delivered';
+      case 'cancelled': return 'Cancelled';
       default: return status;
     }
+  };
+  
+  const getStatusIcon = (status) => {
+    const iconMap = {
+      'pending': '⏳',
+      'confirmed': '✅',
+      'preparing': '👨‍🍳',
+      'ready': '🍽️',
+      'delivered': '🚚',
+      'cancelled': '❌'
+    };
+    return iconMap[status] || '❓';
+  };
+  
+  const getStatusColor = (status) => {
+    const colorMap = {
+      'pending': '#ff9500',
+      'confirmed': '#007aff',
+      'preparing': '#ff6b35',
+      'ready': '#28a745',
+      'delivered': '#28a745',
+      'cancelled': '#dc3545'
+    };
+    return colorMap[status] || '#6c757d';
   };
   
   const loadingContent = React.createElement('div', {
@@ -235,7 +258,13 @@ const OrderHistory = ({ onBack }) => {
                   background: getStatusColor(order.status),
                   marginBottom: '0.5rem'
                 }
-              }, getStatusText(order.status)),
+              }, [
+                React.createElement('span', {
+                  key: 'icon',
+                  style: { marginRight: '0.25rem' }
+                }, getStatusIcon(order.status)),
+                getStatusText(order.status)
+              ]),
               React.createElement('div', {
                 key: 'total',
                 style: {
