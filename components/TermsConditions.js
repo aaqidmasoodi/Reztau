@@ -1,6 +1,5 @@
 const TermsConditions = () => {
   const [termsData, setTermsData] = useState(null);
-  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const loadTermsConditions = async () => {
@@ -10,37 +9,11 @@ const TermsConditions = () => {
         setTermsData(data);
       } catch (error) {
         console.error('Failed to load terms and conditions:', error);
-      } finally {
-        setLoading(false);
       }
     };
 
     loadTermsConditions();
   }, []);
-
-  if (loading) {
-    return React.createElement('div', {
-      style: {
-        position: 'fixed',
-        top: 0,
-        left: 0,
-        right: 0,
-        bottom: 0,
-        background: 'hsl(var(--background))',
-        zIndex: 1000,
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        paddingTop: 'calc(70px + env(safe-area-inset-top))',
-        paddingBottom: '100px'
-      }
-    }, React.createElement('div', {
-      style: {
-        fontSize: '1rem',
-        color: 'hsl(var(--muted-foreground))'
-      }
-    }, 'Loading...'));
-  }
 
   if (!termsData) {
     return React.createElement('div', {
@@ -52,18 +25,22 @@ const TermsConditions = () => {
         bottom: 0,
         background: 'hsl(var(--background))',
         zIndex: 1000,
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
+        overflow: 'auto',
         paddingTop: 'calc(70px + env(safe-area-inset-top))',
-        paddingBottom: '100px'
+        paddingBottom: '100px',
+        transform: 'translateX(0)',
+        transition: 'transform 0.3s ease-out',
+        animation: 'slideInFromRight 0.3s ease-out'
       }
     }, React.createElement('div', {
       style: {
-        fontSize: '1rem',
-        color: 'hsl(var(--destructive))'
+        padding: '1.5rem',
+        maxWidth: '600px',
+        margin: '0 auto',
+        textAlign: 'center',
+        color: 'hsl(var(--muted-foreground))'
       }
-    }, 'Failed to load terms and conditions'));
+    }, 'Loading...'));
   }
 
   return React.createElement('div', {
