@@ -56,13 +56,16 @@ const Sidebar = ({ isOpen, onClose, onLogout, onShowSettings, onShowOrderHistory
         left: 0,
         width: '280px',
         height: '100vh',
+        maxHeight: '100vh',
         background: 'var(--surface-color)',
         boxShadow: '4px 0 20px rgba(0,0,0,0.15)',
         display: 'flex',
         flexDirection: 'column',
         paddingTop: 'calc(env(safe-area-inset-top))',
+        paddingBottom: 'calc(env(safe-area-inset-bottom) + 2rem)',
         transform: isOpen ? 'translateX(0)' : 'translateX(-100%)',
-        transition: 'transform 0.3s ease'
+        transition: 'transform 0.3s ease',
+        overflow: 'hidden'
       }
     }, [
       // Header
@@ -137,7 +140,9 @@ const Sidebar = ({ isOpen, onClose, onLogout, onShowSettings, onShowOrderHistory
         key: 'navigation',
         style: {
           flex: 1,
-          padding: '1rem 0'
+          padding: '1rem 0',
+          overflowY: 'auto',
+          minHeight: 0
         }
       }, [
         React.createElement('div', {
@@ -336,8 +341,10 @@ const Sidebar = ({ isOpen, onClose, onLogout, onShowSettings, onShowOrderHistory
       React.createElement('div', {
         key: 'footer',
         style: {
-          padding: '1rem 1.5rem',
-          borderTop: '1px solid var(--border-color)'
+          padding: '1rem 1.5rem 2rem 1.5rem',
+          borderTop: '1px solid var(--border-color)',
+          marginTop: 'auto',
+          flexShrink: 0
         }
       }, [
         React.createElement('button', {
@@ -373,9 +380,10 @@ const Sidebar = ({ isOpen, onClose, onLogout, onShowSettings, onShowOrderHistory
             textAlign: 'center',
             marginTop: '1rem',
             fontSize: '0.75rem',
-            color: 'var(--text-secondary)'
+            color: 'var(--text-secondary)',
+            paddingBottom: '1rem'
           }
-        }, 'Version 1.5.1')
+        }, 'Version 1.6.2')
       ])
     ]),
     
