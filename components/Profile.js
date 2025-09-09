@@ -82,7 +82,6 @@ const Profile = ({ onBack, currentUser, isEditing, setIsEditing }) => {
 
   return React.createElement('div', {
     style: {
-      minHeight: '100vh',
       background: 'var(--background-color)',
       paddingTop: 'calc(70px + env(safe-area-inset-top))',
       paddingBottom: '2rem'
