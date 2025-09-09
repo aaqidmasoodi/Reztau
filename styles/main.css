@@ -542,6 +542,7 @@ body {
   width: 100%;
   aspect-ratio: 1;
   overflow: hidden;
+  min-height: 280px;
 }
 
 .menu-item-content {
