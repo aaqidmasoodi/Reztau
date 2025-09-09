@@ -25,6 +25,8 @@ const App = () => {
   const [checkoutError, setCheckoutError] = useState('');
   const [showOrderSuccess, setShowOrderSuccess] = useState(false);
   const [orderSuccessData, setOrderSuccessData] = useState(null);
+  const [showPaymentError, setShowPaymentError] = useState(false);
+  const [paymentErrorData, setPaymentErrorData] = useState(null);
   const [showStripePayment, setShowStripePayment] = useState(false);
   const [stripePaymentData, setStripePaymentData] = useState(null);
   
@@ -1396,24 +1398,30 @@ const App = () => {
         key: 'stripe-payment',
         orderData: stripePaymentData,
         onSuccess: async (paymentResult) => {
+          console.log('📥 Main app received onSuccess:', paymentResult);
           try {
+            console.log('🔄 Saving order to database...');
             // Save order to database
             const orderId = await StripeManager.saveOrderToDatabase(stripePaymentData, paymentResult.id);
+            console.log('✅ Order saved with ID:', orderId);
             
             const completedOrderData = {
               orderId: orderId,
               total: stripePaymentData.total
             };
             
+            console.log('🔄 Updating app state...');
             setShowStripePayment(false);
             setStripePaymentData(null);
             setCheckoutLoading(false);
             
             // Show order success
+            console.log('🔄 Showing order success with data:', completedOrderData);
             setOrderSuccessData(completedOrderData);
             setShowOrderSuccess(true);
+            console.log('✅ Order success state updated');
           } catch (error) {
-            console.error('Failed to save order:', error);
+            console.error('❌ Failed to save order:', error);
             setShowStripePayment(false);
             setStripePaymentData(null);
             setCheckoutLoading(false);
@@ -1425,12 +1433,38 @@ const App = () => {
           setShowStripePayment(false);
           setStripePaymentData(null);
           setCheckoutLoading(false);
-          setCheckoutError('Payment failed. Please try again.');
+          
+          // Show payment error screen
+          setPaymentErrorData({
+            message: error.message,
+            originalOrderData: stripePaymentData
+          });
+          setShowPaymentError(true);
         },
         onCancel: () => {
           setShowStripePayment(false);
           setStripePaymentData(null);
           setCheckoutLoading(false);
+        }
+      }),
+      
+      // Payment Error Screen (at main app level - highest priority)
+      showPaymentError && paymentErrorData && React.createElement(PaymentError, {
+        key: 'payment-error',
+        errorMessage: paymentErrorData.message,
+        onRetry: () => {
+          // Retry payment with same order data
+          setShowPaymentError(false);
+          setPaymentErrorData(null);
+          setCheckoutLoading(true); // Keep loading state for retry
+          setStripePaymentData(paymentErrorData.originalOrderData);
+          setShowStripePayment(true);
+        },
+        onClose: () => {
+          // Close error and return to checkout
+          setShowPaymentError(false);
+          setPaymentErrorData(null);
+          setCheckoutLoading(false); // Reset loading state
         }
       }),
       

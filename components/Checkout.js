@@ -355,7 +355,7 @@ const Checkout = ({ cartItems, onBack, onOrderComplete, onShowOrderHistory, hide
           boxShadow: loading ? 'none' : '0 4px 12px rgba(0,0,0,0.15)',
           transition: 'all 0.2s'
         }
-      }, loading ? 'Processing Order...' : `Place Order - €${total.toFixed(2)}`)
+      }, loading ? 'Processing...' : `Make Payment - €${total.toFixed(2)}`)
     ])
   ]);
 };

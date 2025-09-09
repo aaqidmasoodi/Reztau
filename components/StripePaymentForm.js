@@ -33,7 +33,8 @@ const StripePaymentForm = ({ orderData, onSuccess, onError, onCancel }) => {
       const stripeInstance = Stripe(publishableKey);
       const elementsInstance = stripeInstance.elements({
         mode: 'setup',
-        currency: 'usd'
+        currency: 'usd',
+        paymentMethodCreation: 'manual'
       });
       
       // Create payment element with minimal configuration
@@ -70,24 +71,32 @@ const StripePaymentForm = ({ orderData, onSuccess, onError, onCancel }) => {
   
   const handleSubmit = async (event) => {
     event.preventDefault();
+    console.log('🔄 Payment form submitted');
     
     if (!stripe || !elements || !cardElement) {
+      console.error('❌ Stripe not properly initialized:', { stripe: !!stripe, elements: !!elements, cardElement: !!cardElement });
       setError('Stripe not initialized');
       return;
     }
     
+    console.log('✅ Stripe components ready');
     setLoading(true);
     setError('');
     
     try {
+      console.log('🔄 Submitting payment element...');
       // Submit payment element (works with all payment methods)
       const { error: submitError } = await elements.submit();
       
       if (submitError) {
+        console.error('❌ Submit error:', submitError);
         throw new Error(submitError.message);
       }
       
+      console.log('✅ Payment element submitted successfully');
+      
       // Create payment method from payment element
+      console.log('🔄 Creating payment method...');
       const { error: paymentMethodError, paymentMethod } = await stripe.createPaymentMethod({
         elements,
         params: {
@@ -97,6 +106,8 @@ const StripePaymentForm = ({ orderData, onSuccess, onError, onCancel }) => {
             phone: orderData.customer.phone,
             address: {
               line1: orderData.customer.address,
+              city: 'New York',
+              state: 'NY',
               postal_code: '12345',
               country: 'US'
             },
@@ -105,6 +116,7 @@ const StripePaymentForm = ({ orderData, onSuccess, onError, onCancel }) => {
       });
       
       if (paymentMethodError) {
+        console.error('❌ Payment method error:', paymentMethodError);
         // Handle common Stripe errors more gracefully
         let errorMessage = paymentMethodError.message;
         
@@ -121,23 +133,50 @@ const StripePaymentForm = ({ orderData, onSuccess, onError, onCancel }) => {
         throw new Error(errorMessage);
       }
       
-      console.log('✅ Payment method created successfully:', paymentMethod.type);
+      console.log('✅ Payment method created successfully:', paymentMethod.type, paymentMethod.id);
       
       // Simulate payment processing (since we can't charge without a backend)
+      console.log('🔄 Simulating payment processing...');
       await new Promise(resolve => setTimeout(resolve, 2000));
       
+      // Check if this is a test card that should fail
+      const cardNumber = paymentMethod.card?.last4;
+      console.log('💳 Card last 4 digits:', cardNumber);
+      
+      // Simulate different outcomes based on test cards
+      if (cardNumber === '0002') {
+        // 4000 0000 0000 0002 - Generic decline
+        console.log('❌ Simulating card declined');
+        throw new Error('Your card was declined. Please try a different payment method.');
+      } else if (cardNumber === '0069') {
+        // 4000 0000 0000 0069 - Expired card
+        console.log('❌ Simulating expired card');
+        throw new Error('Your card has expired. Please use a different card.');
+      } else if (cardNumber === '0127') {
+        // 4000 0000 0000 0127 - Incorrect CVC
+        console.log('❌ Simulating incorrect CVC');
+        throw new Error('Your card\'s security code is incorrect. Please try again.');
+      }
+      
+      console.log('✅ Payment processing complete, calling onSuccess callback...');
+      
       // For demo purposes, we'll consider this a successful payment
-      onSuccess({
+      const successData = {
         id: paymentMethod.id,
         status: 'succeeded',
         total: orderData.total
-      });
+      };
+      
+      console.log('📤 Calling onSuccess with data:', successData);
+      onSuccess(successData);
       
     } catch (error) {
-      console.error('Payment failed:', error);
+      console.error('❌ Payment failed:', error);
       setError(error.message);
+      console.log('📤 Calling onError with:', error);
       onError(error);
     } finally {
+      console.log('🔄 Setting loading to false');
       setLoading(false);
     }
   };
@@ -320,9 +359,12 @@ const StripePaymentForm = ({ orderData, onSuccess, onError, onCancel }) => {
       }, [
         React.createElement('div', {
           key: 'title',
-          style: { fontWeight: '600', marginBottom: '0.25rem' }
-        }, 'Test Card:'),
-        React.createElement('div', { key: 'card' }, '4242 4242 4242 4242'),
+          style: { fontWeight: '600', marginBottom: '0.5rem' }
+        }, 'Test Cards:'),
+        React.createElement('div', { key: 'success' }, '✅ Success: 4242 4242 4242 4242'),
+        React.createElement('div', { key: 'decline' }, '❌ Declined: 4000 0000 0000 0002'),
+        React.createElement('div', { key: 'expired' }, '⏰ Expired: 4000 0000 0000 0069'),
+        React.createElement('div', { key: 'cvc' }, '🔒 Bad CVC: 4000 0000 0000 0127'),
         React.createElement('div', { key: 'exp' }, 'Exp: 12/25, CVC: 123')
       ])
     ])
