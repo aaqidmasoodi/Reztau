@@ -10,7 +10,10 @@ const DeveloperInfo = ({ onBack }) => {
       zIndex: 1000,
       overflow: 'auto',
       paddingTop: 'calc(70px + env(safe-area-inset-top))',
-      paddingBottom: '100px'
+      paddingBottom: '100px',
+      transform: 'translateX(0)',
+      transition: 'transform 0.3s ease-out',
+      animation: 'slideInFromRight 0.3s ease-out'
     }
   }, [
     // Header
@@ -33,7 +36,21 @@ const DeveloperInfo = ({ onBack }) => {
     }, [
       React.createElement('button', {
         key: 'back',
-        onClick: onBack,
+        onClick: (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          // Add slide-out animation
+          const overlayElement = e.target.closest('[style*="slideInFromRight"]');
+          if (overlayElement) {
+            overlayElement.style.animation = 'slideOutToRight 0.3s ease-in';
+            overlayElement.style.transform = 'translateX(100%)';
+            setTimeout(() => {
+              onBack();
+            }, 300);
+          } else {
+            onBack();
+          }
+        },
         style: {
           background: 'none',
           border: 'none',
@@ -45,7 +62,16 @@ const DeveloperInfo = ({ onBack }) => {
           borderRadius: '8px',
           display: 'flex',
           alignItems: 'center',
-          justifyContent: 'center'
+          justifyContent: 'center',
+          minWidth: '40px',
+          minHeight: '40px',
+          transition: 'background-color 0.2s'
+        },
+        onMouseEnter: (e) => {
+          e.target.style.backgroundColor = 'hsl(var(--muted))';
+        },
+        onMouseLeave: (e) => {
+          e.target.style.backgroundColor = 'transparent';
         }
       }, React.createElement('i', { className: 'fas fa-arrow-left' })),
       React.createElement('h1', {

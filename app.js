@@ -206,6 +206,10 @@ const App = () => {
           setShowAbout(false);
           setOverlayPage(null);
         }
+        else if (showDeveloperInfo) {
+          setShowDeveloperInfo(false);
+          setOverlayPage(null);
+        }
         else if (showItemDetail) handleCloseItemDetail();
         else if (showCheckout) handleCloseCheckout();
       }, 300);
@@ -215,6 +219,10 @@ const App = () => {
       else if (showOrderHistory) handleCloseOrderHistory();
       else if (showAbout) {
         setShowAbout(false);
+        setOverlayPage(null);
+      }
+      else if (showDeveloperInfo) {
+        setShowDeveloperInfo(false);
         setOverlayPage(null);
       }
       else if (showItemDetail) handleCloseItemDetail();
