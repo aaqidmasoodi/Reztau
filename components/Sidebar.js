@@ -1,4 +1,18 @@
 const Sidebar = ({ isOpen, onClose, onLogout, onShowSettings, onShowOrderHistory, onShowAbout = () => {}, onShowDeveloperInfo = () => {}, onShowPrivacyPolicy = () => {}, onShowTermsConditions = () => {}, currentUser }) => {
+  // Prevent body scroll when sidebar is open
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    
+    // Cleanup on unmount
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [isOpen]);
+
   const handleNavigation = (page) => {
     if (page === 'settings') {
       onShowSettings();
@@ -38,6 +52,7 @@ const Sidebar = ({ isOpen, onClose, onLogout, onShowSettings, onShowOrderHistory
     React.createElement('div', {
       key: 'sidebar-backdrop',
       onClick: onClose,
+      onTouchMove: (e) => e.preventDefault(),
       style: {
         position: 'absolute',
         top: 0,
@@ -54,6 +69,7 @@ const Sidebar = ({ isOpen, onClose, onLogout, onShowSettings, onShowOrderHistory
     // Sidebar content
     React.createElement('div', {
       key: 'sidebar',
+      onTouchMove: (e) => e.stopPropagation(),
       style: {
         position: 'absolute',
         top: 0,
@@ -412,7 +428,7 @@ const Sidebar = ({ isOpen, onClose, onLogout, onShowSettings, onShowOrderHistory
             color: 'var(--text-secondary)',
             paddingBottom: '1rem'
           }
-        }, 'Version 1.7.3')
+        }, 'Version 1.7.4')
       ])
     ]),
     
