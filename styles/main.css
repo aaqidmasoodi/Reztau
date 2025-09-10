@@ -1335,6 +1335,21 @@ body {
   font-size: 0.9rem;
   font-weight: 600;
 }
+
+.offline-banner-bottom {
+  position: fixed;
+  left: 0;
+  right: 0;
+  background: var(--warning-color);
+  color: white;
+  padding: 0.75rem;
+  text-align: center;
+  font-size: 0.9rem;
+  font-weight: 600;
+  z-index: 1000;
+  transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
+  box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+}
 /* Payment Error Animation */
 @keyframes shake {
   0%, 100% { transform: translateX(0); }

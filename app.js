@@ -32,8 +32,47 @@ const App = () => {
   const [paymentErrorData, setPaymentErrorData] = useState(null);
   const [showStripePayment, setShowStripePayment] = useState(false);
   const [stripePaymentData, setStripePaymentData] = useState(null);
+  const [isOnline, setIsOnline] = useState(navigator.onLine);
+  const [bottomNavHeight, setBottomNavHeight] = useState(70);
   
   // Initialize app
+  // Online/offline detection
+  useEffect(() => {
+    const handleOnline = () => setIsOnline(true);
+    const handleOffline = () => setIsOnline(false);
+    
+    window.addEventListener('online', handleOnline);
+    window.addEventListener('offline', handleOffline);
+    
+    return () => {
+      window.removeEventListener('online', handleOnline);
+      window.removeEventListener('offline', handleOffline);
+    };
+  }, []);
+
+  // Calculate bottom nav height
+  useEffect(() => {
+    const calculateBottomNavHeight = () => {
+      const bottomNav = document.querySelector('.bottom-nav');
+      if (bottomNav) {
+        setBottomNavHeight(bottomNav.offsetHeight);
+      }
+    };
+
+    // Calculate on mount and resize
+    calculateBottomNavHeight();
+    window.addEventListener('resize', calculateBottomNavHeight);
+    
+    // Use MutationObserver to detect when bottom nav is added to DOM
+    const observer = new MutationObserver(calculateBottomNavHeight);
+    observer.observe(document.body, { childList: true, subtree: true });
+
+    return () => {
+      window.removeEventListener('resize', calculateBottomNavHeight);
+      observer.disconnect();
+    };
+  }, []);
+
   // Update cart count when cart items change
   useEffect(() => {
     const count = cartItems.reduce((sum, item) => sum + item.quantity, 0);
@@ -966,6 +1005,17 @@ const App = () => {
           ])
         ])
       ])),
+      
+      // Offline banner (slides up from bottom)
+      React.createElement('div', {
+        key: 'offline-banner',
+        className: 'offline-banner-bottom',
+        style: {
+          transform: isOnline ? 'translateY(100%)' : 'translateY(0)',
+          opacity: isOnline ? 0 : 1,
+          bottom: `${bottomNavHeight}px`
+        }
+      }, '⚠️ You are offline. Some aspects of the app may not work as expected.'),
       
       React.createElement(BottomNav, {
         key: 'nav',
