@@ -1,6 +1,6 @@
 {
   "name": "reztau",
-  "version": "1.7.4",
+  "version": "1.7.5",
   "description": "White-label Progressive Web App for restaurants",
   "main": "index.html",
   "scripts": {

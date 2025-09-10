@@ -428,7 +428,7 @@ const Sidebar = ({ isOpen, onClose, onLogout, onShowSettings, onShowOrderHistory
             color: 'var(--text-secondary)',
             paddingBottom: '1rem'
           }
-        }, 'Version 1.7.4')
+        }, 'Version 1.7.5')
       ])
     ]),
     

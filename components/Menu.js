@@ -19,54 +19,62 @@ const Menu = ({ onAddToCart, onItemClick }) => {
   useEffect(() => {
     if (!menuData || activeCategory !== 'all' || searchQuery) return;
 
+    let ticking = false;
+
     const handleScroll = () => {
-      const sections = menuData.categories.map(category => {
-        const element = document.getElementById(`category-${category.id}`);
-        if (element) {
-          const rect = element.getBoundingClientRect();
-          return {
-            id: category.id,
-            top: rect.top,
-            bottom: rect.bottom,
-            element
-          };
-        }
-        return null;
-      }).filter(Boolean);
+      if (!ticking) {
+        requestAnimationFrame(() => {
+          const sections = menuData.categories.map(category => {
+            const element = document.getElementById(`category-${category.id}`);
+            if (element) {
+              const rect = element.getBoundingClientRect();
+              return {
+                id: category.id,
+                top: rect.top,
+                bottom: rect.bottom,
+                element
+              };
+            }
+            return null;
+          }).filter(Boolean);
 
-      // Find the category that's most in view
-      const viewportCenter = window.innerHeight / 2;
-      let activeSection = null;
-      let minDistance = Infinity;
+          // Find the category that's most in view
+          const viewportCenter = window.innerHeight / 2;
+          let activeSection = null;
+          let minDistance = Infinity;
 
-      sections.forEach(section => {
-        const sectionCenter = (section.top + section.bottom) / 2;
-        const distance = Math.abs(sectionCenter - viewportCenter);
-        
-        if (distance < minDistance && section.top < viewportCenter && section.bottom > 0) {
-          minDistance = distance;
-          activeSection = section;
-        }
-      });
-
-      if (activeSection) {
-        // Scroll the category filter to center the active category
-        const categoryButton = document.querySelector(`[data-category="${activeSection.id}"]`);
-        const filterContainer = document.querySelector('.category-tabs-container');
-        
-        if (categoryButton && filterContainer) {
-          const buttonRect = categoryButton.getBoundingClientRect();
-          const containerRect = filterContainer.getBoundingClientRect();
-          const scrollLeft = categoryButton.offsetLeft - (containerRect.width / 2) + (buttonRect.width / 2);
-          
-          filterContainer.scrollTo({
-            left: scrollLeft,
-            behavior: 'smooth'
+          sections.forEach(section => {
+            const sectionCenter = (section.top + section.bottom) / 2;
+            const distance = Math.abs(sectionCenter - viewportCenter);
+            
+            if (distance < minDistance && section.top < viewportCenter && section.bottom > 0) {
+              minDistance = distance;
+              activeSection = section;
+            }
           });
-        }
+
+          if (activeSection) {
+            // Scroll the category filter to center the active category
+            const categoryButton = document.querySelector(`[data-category="${activeSection.id}"]`);
+            const filterContainer = document.querySelector('.category-tabs-container');
+            
+            if (categoryButton && filterContainer) {
+              const buttonRect = categoryButton.getBoundingClientRect();
+              const containerRect = filterContainer.getBoundingClientRect();
+              const scrollLeft = categoryButton.offsetLeft - (containerRect.width / 2) + (buttonRect.width / 2);
+              
+              // Use immediate scroll for iOS - no smooth behavior
+              filterContainer.scrollLeft = scrollLeft;
+            }
+          }
+          
+          ticking = false;
+        });
+        ticking = true;
       }
     };
 
+    // Use passive listener for better iOS performance
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, [menuData, activeCategory, searchQuery]);

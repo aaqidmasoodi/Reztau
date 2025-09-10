@@ -33,7 +33,6 @@ const CategoryTabs = ({ categories, activeCategory, onCategoryChange }) => {
         gap: '0.75rem',
         overflow: 'auto',
         padding: '0 1rem',
-        scrollBehavior: 'smooth',
         scrollbarWidth: 'none',
         msOverflowStyle: 'none'
       }
