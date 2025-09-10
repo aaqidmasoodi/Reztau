@@ -27,6 +27,7 @@ const CategoryTabs = ({ categories, activeCategory, onCategoryChange }) => {
     }
   }, 
     React.createElement('div', {
+      className: 'category-tabs-container',
       style: {
         display: 'flex',
         gap: '0.75rem',
@@ -60,6 +61,7 @@ const CategoryTabs = ({ categories, activeCategory, onCategoryChange }) => {
       ...categories.map(category =>
         React.createElement('button', {
           key: category.id,
+          'data-category': category.id,
           onClick: () => onCategoryChange(category.id),
           style: {
             background: activeCategory === category.id ? 'var(--primary-color)' : 'var(--border-color)',
